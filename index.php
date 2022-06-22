@@ -1,3 +1,7 @@
+<?php 
+	require_once("config/koneksidb.php");
+	require_once("config/config.php");
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -83,37 +87,42 @@
 	<!-- modal -->
 	<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Form Login</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<form class="bg-light p-5">
-						<div class="alert alert-danger" role="alert" id="alert" style="display: none"></div>
-						<div class="alert alert-success" role="alert" id="alertok" style="display: none"></div>
-						<div id="judul" class="mt-3"></div>
-						<hr />
+			<form class="bg-light p-5" action="ceklogin.php" method="POST">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Form Login</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
 						<div class="mb-4">
 							<label for="username" class="form-label">Username</label>
-							<input type="text" name="logusername" class="form-control" id="logusername" />
+							<input type="text" name="username" class="form-control" id="logusername" />
 						</div>
 						<div class="mb-4">
 							<label for="password" class="form-label">Password</label>
-							<input type="password" class="form-control" id="logpassword" />
+							<input type="password" name="password" class="form-control" id="logpassword" />
 						</div>
-					</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" id="btnbatal" class="btn btn-secondary"
+							data-bs-dismiss="modal">Batal</button>
+						<button type="submit" name="btnlogin" id="btnkeluar" class="btn btn-primary">Login</button>
+					</div>
 				</div>
-				<div class="modal-footer">
-					<button type="button" id="btnbatal" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-					<button type="button" id="btnkeluar" class="btn btn-primary" onclick="ceklogin()">Login</button>
-				</div>
-			</div>
+			</form>
 		</div>
 	</div>
 
 	<!-- js -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 	<script src="assets/proses.js"></script>
+	<script src="assets/js/adit.js"></script>
+	<script src="assets/js/sulthan.js"></script>
+	<script src="assets/js/galang.js"></script>
+	<script src="assets/js/ardi.js"></script>
+	<script src="assets/js/agung.js"></script>
+	<script src="assets/js/putra.js"></script>
 </body>
 
 </html>

@@ -9,5 +9,14 @@ $url_folders_arr = explode('/', $url_folders); //output: array("", latihanweb_ec
 $url_mainfolder = $url_folders_arr[1]; //output: latihanweb_ecomm
 
 define("MAIN_URL", $set_server."/".$url_mainfolder); //output: http://localhost/latihanweb_ecomm
-define("ADMIN_URL", $set_server."/".$url_folders); 
+define("ADMIN_URL", $set_server."/".$url_folders); //output: http://localhost/latihanweb_ecomm/admin/home.php
+
+function security_login(){
+	if(empty($_SESSION['userlogin'])){
+		return header("Location: ".MAIN_URL."");
+	}else{
+		return $_SESSION['userlogin'];
+	}
+}
+
 ?>

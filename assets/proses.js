@@ -78,3 +78,21 @@ if (document.getElementById("formdaftar")) {
     }
   };
 }
+
+if (document.getElementById("formcontoh")) {
+  $("#exproduk").change(function () {
+    let idproduk = $(this).val(); //idproduk
+    //ini hanya digunakan untuk attribut data pada combobox
+    let hrgproduk = $(this).find(":selected").data("hargaaaa");
+    console.log(idproduk + ":" + hrgproduk);
+    $("#exharga").val(hrgproduk);
+  });
+  //hitung total
+  $("#exqty").change(function () {
+    let qty = $(this).val();
+    let harga = $("#exharga").val();
+    let total = harga * qty;
+    $("#extotal").val(total);
+    console.log(qty + ":" + harga);
+  });
+}

@@ -6,12 +6,31 @@ if (!isset($_GET['action'])) {
     <table class="table table-bordered">
         <tr>
             <th>Kode Invoice</th>
+            <th>Tanggal Transaksi</th>
             <th>Nama Produk</th>
             <th>Nama Member</th>
             <th>Total</th>
             <th>Status Bayar</th>
             <th>Action</th>
         </tr>
+        <?php
+        $list_penjualan = mysqli_query($koneksidb, "SELECT t.no_invoice,p.nmproduk,m.nm_member,t.total,t.tgl_transaksi,t.is_bayar FROM tst_penjualan t INNER JOIN daftarmember m ON t.idmember = m.idmember INNER JOIN mst_produk p ON t.idproduk = p.idproduk");
+        foreach ($list_penjualan as $lp) :
+        ?>
+            <tr>
+                <td><?= $lp['no_invoice']; ?></td>
+                <td><?= $lp['tgl_transaksi']; ?></td>
+                <td><?= $lp['nmproduk']; ?></td>
+                <td><?= $lp['nm_member']; ?></td>
+                <td><?= $lp['total']; ?></td>
+                <td><?= ($lp['is_bayar'] == 1) ? "Lunas" : "Belum Lunas" ?></td>
+                <td>
+                    <a href="?modul=mod_transaksi&action=edit&id=<?= $lp['no_invoice']; ?>" class="btn btn-xs btn-primary"><i class="bi bi-pencil-square"></i> Edit</a>
+                </td>
+            </tr>
+        <?php
+        endforeach;
+        ?>
     </table>
     <hr>
 <?php } else if (isset($_GET['action']) && ($_GET['action'] == "add" || $_GET['action'] == "edit")) {
@@ -34,8 +53,10 @@ if (!isset($_GET['action'])) {
         //$nourut_baru = $no_urutakhir + 1;
 
         if ($no_urutakhir < 10) {
-            $nourut_baru = "00" . ($no_urutakhir + 1);
+            $nourut_baru = "000" . ($no_urutakhir + 1);
         } else if ($no_urutakhir < 100) {
+            $nourut_baru = "00" . ($no_urutakhir + 1);
+        } else if ($no_urutakhir < 1000) {
             $nourut_baru = "0" . ($no_urutakhir + 1);
         } else {
             $nourut_baru = ($no_urutakhir + 1);
@@ -48,73 +69,113 @@ if (!isset($_GET['action'])) {
     // echo "kode: " . $kodeterbaru;
     $data_produk = mysqli_query($koneksidb, "select * from mst_produk");
     ?>
-    <form action="?modul=mod_transaksi&action=save" id="formtransaksi" method="POST">
-        <div class="row">
-            <label class="col-md-2">Kode</label>
-            <div class="col-md-5">
-                <input type="hidden" name="proses" value="<?= $proses; ?>">
-                <input type="text" name="kode" id="kode" class="form-control" value="<?= $kodeterbaru; ?>" readonly>
+    <?php
+    if ($proses == "insert") {
+    ?>
+        <form action="?modul=mod_transaksi&action=save" id="formtransaksi" method="POST">
+            <div class="row">
+                <label class="col-md-2">Kode</label>
+                <div class="col-md-5">
+                    <input type="hidden" name="proses" value="<?= $proses; ?>">
+                    <input type="text" name="kode" id="kode" class="form-control" value="<?= $kodeterbaru; ?>" readonly>
+                </div>
             </div>
-        </div>
-        <div class="row pt-3">
-            <label class="col-md-2">Member</label>
-            <div class="col-md-5">
-                <select name="member" id="member" class="form-control">
-                    <?php
-                    foreach ($query_member as $m) :
-                    ?>
-                        <option value="<?= $m['idmember']; ?>"><?= $m['nm_member']; ?></option>
-                    <?php
-                    endforeach;
-                    ?>
-                </select>
+            <div class="row pt-3">
+                <label class="col-md-2">Member</label>
+                <div class="col-md-5">
+                    <select name="member" id="member" class="form-control">
+                        <?php
+                        foreach ($query_member as $m) :
+                        ?>
+                            <option value="<?= $m['idmember']; ?>"><?= $m['nm_member']; ?></option>
+                        <?php
+                        endforeach;
+                        ?>
+                    </select>
+                </div>
             </div>
-        </div>
-        <div class="row pt-3">
-            <label class="col-md-2">Produk</label>
-            <div class="col-md-5">
-                <select name="produk" id="produk" class="form-control">
-                    <option value="" selected disabled>-Pilih Produk--</option>
-                    <?php
-                    while ($p = mysqli_fetch_array($data_produk)) {
-                        echo '<option value="' . $p['idproduk'] . '" 
-					data-harga="' . $p['harga'] . '" data-stock="' . $p['stock'] . '">' . $p['nmproduk'] . '</option>';
-                    }
-                    ?>
-                </select>
+            <div class="row pt-3">
+                <label class="col-md-2">Produk</label>
+                <div class="col-md-5">
+                    <select name="produk" id="produk" class="form-control">
+                        <option value="" selected disabled>--Pilih Produk--</option>
+                        <?php
+                        foreach ($data_produk as $p) :
+                        ?>
+                            <option value="<?= $p['idproduk']; ?>" data-harga="<?= $p['harga']; ?>" data-stock="<?= $p['stock']; ?>"><?= $p['nmproduk']; ?></option>
+                        <?php
+                        endforeach;
+                        ?>
+                    </select>
+                </div>
             </div>
-        </div>
-        <div class="row pt-3">
-            <label class="col-md-2">Stock</label>
-            <div class="col-md-5">
-                <input type="text" name="stock" id="stock" class="form-control" readonly>
+            <div class="row pt-3">
+                <label class="col-md-2">Stock</label>
+                <div class="col-md-5">
+                    <input type="text" name="stock" id="stock" class="form-control" readonly>
+                </div>
             </div>
-        </div>
-        <div class="row pt-3">
-            <label class="col-md-2">Harga </label>
-            <div class="col-md-5">
-                <input type="text" name="harga" id="harga" class="form-control" readonly>
+            <div class="row pt-3">
+                <label class="col-md-2">Harga</label>
+                <div class="col-md-5">
+                    <input type="text" name="harga" id="harga" class="form-control" readonly>
+                </div>
             </div>
-        </div>
-        <div class="row pt-3">
-            <label class="col-md-2">Qty </label>
-            <div class="col-md-5">
-                <input type="text" name="qty" id="qty" class="form-control">
+            <div class="row pt-3">
+                <label class="col-md-2">Qty</label>
+                <div class="col-md-5">
+                    <input type="text" name="qty" id="qty" class="form-control">
+                </div>
             </div>
-        </div>
-        <div class="row pt-3">
-            <label class="col-md-2">Total </label>
-            <div class="col-md-5">
-                <input type="text" name="total" id="total" class="form-control" readonly>
+            <div class="row pt-3">
+                <label class="col-md-2">Total</label>
+                <div class="col-md-5">
+                    <input type="text" name="total" id="total" class="form-control" readonly>
+                </div>
             </div>
-        </div>
-        <div class="row pt-3">
-            <label class="col-md-2"></label>
-            <div class="col-md-5">
-                <button type="submit" class="btn btn-primary">Simpan</button>
+            <div class="row pt-3">
+                <label class="col-md-2"></label>
+                <div class="col-md-5">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <a href="home.php?modul=mod_transaksi"><button type="button" class="btn btn-warning">Kembali</button></a>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
+    <?php } else { ?>
+        <form action="?modul=mod_transaksi&action=save" id="formtransaksi" method="POST" enctype="multipart/form-data">
+            <?php
+            $qry = mysqli_query($koneksidb, "select * from tst_penjualan where no_invoice='$kode' LIMIT 0,1");
+            $dt = mysqli_fetch_array($qry);
+            ?>
+            <div class="row pt-3">
+                <label class="col-md-2">Status Bayar</label>
+                <div class="col-md-5">
+                    <input type="hidden" name="proses" value="<?= $proses; ?>">
+                    <input type="hidden" name="no_invoice" value="<?= $id; ?>">
+                    <input class="form-check-input" type="checkbox" id="statusbayar" name="statusbayar" <?= $dt['is_bayar'] == 1 ? "checked" : "" ?>>
+                </div>
+            </div>
+            <div class="row pt-3">
+                <label class="col-md-2">Status Pesanan</label>
+                <div class="col-md-5">
+                    <input class="form-check-input" type="checkbox" id="statuspesanan" name="statuspesanan" <?= $dt['is_closed'] == 1 ? "checked" : "" ?>>
+                </div>
+            </div>
+            <div class="row pt-3">
+                <label class="col-md-2">Bukti Pembayaran</label>
+                <div class="col-md-5">
+                    <input type="file" id="bukti" name="bukti" class="form-control">
+                </div>
+            </div>
+            <div class="row pt-3">
+                <label class="col-md-2"></label>
+                <div class="col-md-5">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <a href="home.php?modul=mod_transaksi"><button type="button" class="btn btn-warning">Kembali</button></a>
+                </div>
+            </div>
+        </form>
+    <?php } ?>
 <?php
 }
 ?>

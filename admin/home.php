@@ -48,7 +48,6 @@
 						include_once $_GET['modul']."/index.php";
 					}
 					?>
-
 				</div>
 			</div>
 		</div>

@@ -5,6 +5,21 @@ if (!isset($_GET['action'])) {
     // $data_menu = mysqli_query($koneksidb, "select * from mst_menu ");
     //untuk contoh combo
     $data_produk = mysqli_query($koneksidb, "select * from mst_produk");
+} else if (isset($_GET['action']) && $_GET['action'] == "delete") {
+    $id = $_GET['id'];
+    $cekqty = mysqli_query($koneksidb, "SELECT qty,idproduk FROM tst_penjualan WHERE no_invoice='$id'");
+    $cq = mysqli_fetch_array($cekqty);
+    $id_produk = $cq['idproduk'];
+    $cekstock = mysqli_query($koneksidb, "SELECT stock FROM mst_produk WHERE idproduk='$id_produk'");
+    $cs = mysqli_fetch_array($cekstock);
+    $qty = $cq['qty'];
+    $stock = $cs['stock'];
+    $update = ($qty + $stock);
+    $querystock = mysqli_query($koneksidb, "UPDATE mst_produk SET stock=$update WHERE idproduk=$id_produk");
+    if ($querystock) {
+        $querydelete = mysqli_query($koneksidb, "DELETE FROM tst_penjualan WHERE no_invoice='$id'");
+        header('Location: home.php?modul=mod_transaksi');
+    }
 } else if (isset($_GET['action']) && $_GET['action'] == "add") {
     $nmmenu = "";
     $proses = "insert";
@@ -34,7 +49,7 @@ if (!isset($_GET['action'])) {
     } else if ($proses == "update") {
         if (!empty($_FILES['bukti'])) {
             $file = $_FILES['bukti'];
-            $target_dir = "../../assets/img/";
+            $target_dir = "../assets/img/";
             $target_file =  $target_dir . basename($file['name']);
             $type_file = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
             echo $type_file . "<br/>";

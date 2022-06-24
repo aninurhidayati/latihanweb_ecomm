@@ -14,7 +14,7 @@ if (!isset($_GET['action'])) {
             <th>Action</th>
         </tr>
         <?php
-        $list_penjualan = mysqli_query($koneksidb, "SELECT t.no_invoice,p.nmproduk,m.nm_member,t.total,t.tgl_transaksi,t.is_bayar FROM tst_penjualan t INNER JOIN daftarmember m ON t.idmember = m.idmember INNER JOIN mst_produk p ON t.idproduk = p.idproduk");
+        $list_penjualan = mysqli_query($koneksidb, "SELECT t.no_invoice,p.nmproduk,m.nm_member,t.total,t.tgl_transaksi,t.is_bayar,t.is_closed FROM tst_penjualan t INNER JOIN daftarmember m ON t.idmember = m.idmember INNER JOIN mst_produk p ON t.idproduk = p.idproduk");
         foreach ($list_penjualan as $lp) :
         ?>
             <tr>
@@ -25,7 +25,18 @@ if (!isset($_GET['action'])) {
                 <td><?= $lp['total']; ?></td>
                 <td><?= ($lp['is_bayar'] == 1) ? "Lunas" : "Belum Lunas" ?></td>
                 <td>
-                    <a href="?modul=mod_transaksi&action=edit&id=<?= $lp['no_invoice']; ?>" class="btn btn-xs btn-primary"><i class="bi bi-pencil-square"></i> Edit</a>
+                    <?php
+                    if ($lp['is_closed'] == 1) {
+                    ?>
+                        <a href="?modul=mod_transaksi&action=edit&id=<?= $lp['no_invoice']; ?>" class="btn btn-xs btn-primary"><i class="bi bi-pencil-square"></i> Edit</a>
+                        <a href="?modul=mod_transaksi&action=delete&id=<?= $lp['no_invoice']; ?>" class="btn btn-xs btn-danger"><i class="bi bi-trash"></i> Delete</a>
+                    <?php
+                    } else {
+                    ?>
+                        <a href="?modul=mod_transaksi&action=edit&id=<?= $lp['no_invoice']; ?>" class="btn btn-xs btn-primary"><i class="bi bi-pencil-square"></i> Edit</a>
+                    <?php
+                    }
+                    ?>
                 </td>
             </tr>
         <?php

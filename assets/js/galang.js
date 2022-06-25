@@ -21,4 +21,18 @@ if (document.getElementById("formtransaksi")) {
     }
     // console.log(qty + stock + ":" + harga);
   });
+
+  $('#btnsubmit').click(function () {
+    let qty = $('#qty').val();
+    if (qty < 1) {
+      alert('Qty tidak boleh 0');
+    } else {
+      $('#modalsubmit').modal("show");
+    }
+  })
+
+  $('#btnya').click(function () {
+    $('#formtransaksi').attr("action", "?modul=mod_transaksi&action=save");
+    $('#formtransaksi').submit();
+  })
 }

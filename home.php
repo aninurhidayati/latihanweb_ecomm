@@ -3,7 +3,10 @@
 		<div class="col-md-3 pt-4">
 			<div class="kategori-title">Kategori Produk</div>
 			<div class="subkategori" id="subkategori"></div>
-			<a href="?page=kategoriproduk">kategori</a>
+			<div><!-- percobaan cek sulthan -->
+				<li><a href="?page=kategoriproduk&id=1">kaos</a></li>
+				<li><a href="?page=kategoriproduk&id=2">sweter</a></li>
+			</div>
 		</div>
 		<div class="col-md-9 pt-4">
 			<div class="row">

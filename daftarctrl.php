@@ -3,42 +3,11 @@
     require_once "config/koneksidb.php";
 ?>
 <?php 
-    security_login();
+        // security_login();
     
-    if(!isset($_GET['action'])){
+    if(!isset($_GET['page'])){
         $data_menu = mysqli_query($koneksidb,"select * from mst_menu ");
         //untuk contoh generate kode
-        $query_cekkode = mysqli_query($koneksidb,
-                "select kode_menu from mst_menu ORDER BY kode_menu DESC LIMIT 0,1");
-        $cekkode = mysqli_fetch_array($query_cekkode);		
-        $kodeakhir = $cekkode['kode_menu'];
-        echo $kodeakhir."<br>";
-        $no_urutakhir = substr($kodeakhir,5);
-        echo $no_urutakhir."<br>";
-        $th_akhir = substr($kodeakhir,1,4);
-        $th_sekarang = date("Y");
-        echo $th_akhir." : ".$th_sekarang."<br>";
-        if($th_akhir == $th_sekarang){
-            //$nourut_baru = $no_urutakhir + 1;
-            
-            if($no_urutakhir < 10){
-                $nourut_baru = "00".($no_urutakhir + 1);
-            }
-            else if($no_urutakhir < 100){
-                $nourut_baru = "0".($no_urutakhir + 1);
-            }
-            else{
-                $nourut_baru = ($no_urutakhir + 1);
-            }
-            echo "kodenya:".$nourut_baru."<br>";
-        }
-        else{
-            $nourut_baru =  "0001";
-        }
-        $kodeterbaru = "M".$th_sekarang.$nourut_baru;
-        echo "kode: ".$kodeterbaru;
-        //untuk contoh combo
-        $data_produk = mysqli_query($koneksidb,"select * from mst_produk ");
     }
     else if(isset($_GET['action']) && $_GET['action'] == "add"){
         $nmmenu = "";
@@ -53,17 +22,56 @@
         $proses = "update";
     }
     else if(isset($_GET['action']) && $_GET['action'] == "save"){
-        $idmenu = $_POST['idmenu'];
-        $nmmenu = $_POST['txtmenu'];
-        $proses = $_POST['proses'];
-        if($proses == "insert"){
-            mysqli_query($koneksidb,"insert into mst_menu(nmmenu)values('$nmmenu')")or die(mysqli_error($koneksidb));
-            echo '<meta http-equiv="refresh" content="0; url='.ADMIN_URL.'?modul=mod_menu">';
+        $kodemember = $_POST['kdmember'];
+        $nmmember = $_POST['txtnama'];
+        $email=$_POST['txtemail'];
+        $pass=$_POST['txtpass'];
+        $tgllhr=$_POST['tgllhr'];
+        // $tgldaftar=$_POST['tgldaftar'];
+        $notelp=$_POST['notelp'];
+        $alamat=$_POST['alamat'];
+        $jk=$_POST['jk'];
+        $tgldaftar=date("Y/m/d H:i:s");
+        // upload 
+        $file = $_FILES['foto']; 
+		$target_dir = "assets/img/";
+		$target_file =  $target_dir.basename($file['name']);
+		$type_file =strtolower(pathinfo($file['name'],PATHINFO_EXTENSION));
+		echo $type_file."<br/>";
+		$is_upload = 1;
+		/* cek batas limit file maks.3MB*/
+		if($file['size'] > 5000000){
+			$is_upload = 0;
+			pesan("File lebih dari 5MB!!");		
+		}
+		/**cek tipe file */
+		if($type_file != "jpg" ){
+			$is_upload = 0;
+			pesan("hanya tipe file jpg yang diperbolehkan!!");	
+		}
+		$namafile = "";
+		/**proses upload */
+		if($is_upload == 1){
+			if(move_uploaded_file($file['tmp_name'], $target_file)){
+				$namafile = $file['name'];
+                mysqli_query($koneksidb,"INSERT into daftarmember (kode_member,nm_member,email,password,tgl_daftar,tgl_lhr,no_telp,alamat,jk,foto) VALUES ('$kodemember','$nmmember','$email','$pass','$tgldaftar','$tgllhr','$notelp','$alamat','$jk','$namafile')") or die (mysqli_error($koneksidb));
+                header("Location: index.php?page=daftarmember");
+            }
+			else if($is_upload == 0){
+				pesan("GAGAL upload file gambar!!");
+			}
         }
-        else if($proses == "update"){
-            mysqli_query($koneksidb,"update mst_menu set nmmenu='$nmmenu' where idmenu = $idmenu ")or die(mysqli_error($koneksidb));
-            echo '<meta http-equiv="refresh" content="0; url='.ADMIN_URL.'?modul=mod_menu">';
-        }
+
+        // else if($proses == "update"){
+        //     mysqli_query($koneksidb,"update mst_menu set nmmenu='$nmmenu' where idmenu = $idmenu ")or die(mysqli_error($koneksidb));
+        //     echo '<meta http-equiv="refresh" content="0; url='.ADMIN_URL.'?modul=mod_menu">';
+        // }
         
+    }
+    function pesan($alert){	
+        echo '<script language="javascript">';
+        echo 'alert("'.$alert.'")';  //not showing an alert box.
+        echo '</script>';
+        //echo '<meta http-equiv="refresh" content="0; url=http://localhost/latihan_webphp/admin/home.php?modul=mod_upload">';	
     }
     ?>

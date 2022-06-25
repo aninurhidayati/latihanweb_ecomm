@@ -1,5 +1,5 @@
 <?php 
-	include_once "daftarctrl.php";
+	include_once "memberctrl.php";
 	if(!isset($_GET['action'])){
 ?>
 	<?php 
@@ -11,15 +11,11 @@
 			$th_akhir = substr($kodeakhir,2,4);
 			$th_sekarang = date("Y");
 				if($th_akhir == $th_sekarang){
-					// if($no_urutakhir==empty){
-					// 	$nourut_baru = "00".($no_urutakhir + 1);
-					// }
-					//$nourut_baru = $no_urutakhir + 1;
 					if($no_urutakhir < 10||$no_urutakhir == 0){
-						$nourut_baru = "00". ($no_urutakhir + 1);
+						$nourut_baru = "0". ($no_urutakhir + 1);
 					}
 					else if($no_urutakhir < 100){
-						$nourut_baru = "0" . ($no_urutakhir + 1);
+						$nourut_baru = "0". ($no_urutakhir + 1);
 					}
 					else{
 						$nourut_baru = ($no_urutakhir + 1);
@@ -30,7 +26,7 @@
 					$nourut_baru =  "001";
 				}
 				$kodeterbaru = "MB".$th_sekarang.$nourut_baru;
-				echo $no_urutakhir;
+				// echo $no_urutakhir;
 				// echo "kode: ".$kodeterbaru;
 				//untuk contoh combo
 				// $data_produk = mysqli_query($koneksidb,"select * from mst_produk ");
@@ -52,18 +48,19 @@
             <div class="alert alert-warning" role="alert">
                 Ekstensi File Harus JPG
             </div>
-        <?php } elseif ($_GET['text'] == "size") { ?>
+        <?php } elseif ($_GET['text'] == "email") { ?>
             <div class="alert alert-warning" role="alert">
-                Size maksimal 2 MB
+                \email sudah terdaftar
             </div>
 		<?php } ?>
 	<?php } ?>
+	<!-- ?page=daftarmember&action=save -->
 					<div class="subkategori p-3" id="formdaftar">
 						<h5 class="text-center pb-2"><b> DAFTAR MEMBER</b></h5>
 						<div class="row">
 							<div class="col-md-2"></div>
 							<div class="col-md-10">
-								<form action="?page=daftarmember&action=save" id="formdaftar" method="POST" enctype="multipart/form-data">
+								<form action="#" id="formdaft" method="POST" enctype="multipart/form-data">
 								<div class="row pb-1">
 									<label for="kdmember" class="col-md-3">Kode member</label>
 									<div class="col-md-6">
@@ -133,43 +130,35 @@
 								<div class="row pb-1">
 									<div class="col-md-3"></div>
 									<div class="col-md-6">
-										<button type="submit" class="btn btn-warning btn-sm form-control" name="btndaftar" id="btndaftar">Daftar</button>
+										<button type="button" class="btn btn-warning btn-sm form-control" name="btndaftar" id="btndaftar" data-bs-toggle="modal" >Daftar</button>
 									</div>
 								</div>
+									<div class="modal" tabindex="-1"  id="konfirmasi">
+										<div class="modal-dialog">
+											<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title">konfirmasi</h5>
+												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											<div class="modal-body">
+												<p>apakah anda  yakin ingin menyimpan data ?
+												</p>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+												<button type="submit" name="submit" class="btn btn-primary" id="btnyes">simpan</button>
+											</div>
+											</div>
+										</div>
+									</div>		
 								</form>
 								<?php } ?>
 							</div>
 						</div>
 					</div>
 
+					<!-- modal simpan -->
+					
 					<!-- ketika tampil hasil -->
-					<div class="subkategori p-3" id="tampildaftar" style="display: none">
-						<h5 class="text-center pb-2"><b> Terima Kasih Telah Melakukan Pendaftaran sebagai Member</b>
-						</h5>
-						<div class="row">
-							<div class="col-md-2"></div>
-							<div class="col-md-10">
-								<div class="row pb-1">
-									<label for="txtname" class="col-md-3">Nama</label>
-									<div class="col-md-6" id="outnama"></div>
-								</div>
-								<div class="row pb-1">
-									<label for="txtuser" class="col-md-3">Username</label>
-									<div class="col-md-6" id="outuser"></div>
-								</div>
-								<div class="row pb-1">
-									<label for="txttelp" class="col-md-3">Nomor Telepon</label>
-									<div class="col-md-6" id="outtelepon"></div>
-								</div>
-								<div class="row pb-1">
-									<label for="txttelp" class="col-md-3">Kode Member</label>
-									<div class="col-md-6" id="outkode"></div>
-								</div>
-							</div>
-						</div>
-						<h5 class="text-center pb-2 pt-2"><b> Silahkan cek email untuk mendapatkan link aktivasi!!</b>
-						</h5>
-					</div>
-				</div>
-			</div>
-		</div>
+		<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script src="assets/js/adit.js"></script> -->

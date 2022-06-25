@@ -3,11 +3,13 @@
         <div class="col-md-2"></div>
 		<div class="col-md-8 pt-4">
 			<div class="row">
-                <h1 class="text text-center">Kategiri</h1>
+                <h1 class="text text-center">Onigiri</h1>
                 <hr>
                 <?php
+                    $idkey = $_GET['id'];
                     $qlist_produk = mysqli_query($koneksidb, "SELECT mp.nmproduk, mp.harga, mp.gambar
-                    FROM mst_produk mp  ORDER BY mp.idproduk DESC LIMIT 6;");
+                    FROM mst_produk mp INNER JOIN kategoriproduk kp ON mp.idkategori=kp.idkategori WHERE kp.idkategori = $idkey
+                    ORDER BY mp.idproduk DESC LIMIT 6;");
                     foreach($qlist_produk as $lp) :
                 ?>
 				<div class="col-md-4 pb-4">

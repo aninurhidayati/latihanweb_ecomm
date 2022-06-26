@@ -24,7 +24,7 @@
 		<div class="container pe-5 ps-5">
 			<ul class="navbar-nav ms-auto mb-2 mb-lg-0 fontnav text-white">
 				<li class="nav-item">
-					<a href="index.html" class="nav-link">HOME</a>
+					<a href="index.php" class="nav-link">HOME</a>
 				</li>
 				<li class="nav-item">
 					<a href="#" class="nav-link">PRODUCT</a>

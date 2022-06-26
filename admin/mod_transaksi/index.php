@@ -33,7 +33,7 @@ if (!isset($_GET['action'])) {
                 <td><?= ($lp['is_closed'] == 1) ? "Selesai" : "Proses" ?></td>
                 <td>
                     <?php
-                    if ($lp['is_closed'] == 1) {
+                    if ($lp['is_bayar'] == 1) {
                     ?>
                         <a href="?modul=mod_transaksi&action=edit&id=<?= $lp['no_invoice']; ?>" class="btn btn-xs btn-primary"><i class="bi bi-pencil-square"></i> Edit</a>
                         <a href="?modul=mod_transaksi&action=delete&id=<?= $lp['no_invoice']; ?>" class="btn btn-xs btn-danger"><i class="bi bi-trash"></i> Delete</a>

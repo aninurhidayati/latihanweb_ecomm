@@ -4,11 +4,10 @@
         // security_login();
     
     if(isset($_POST['submit'])){
-        // $emailinserted=mysqli_fetch_array($cekemail);
         $cekemail=mysqli_query($koneksidb,"select * from daftarmember where email='".$_POST['txtemail']."'");
-		// if(mysqli_num_rows($cekemail) > 0){
-        //     pesan("email sudah terdaftar");
-        // }
+        if(mysqli_num_rows($cekemail) > 0){
+            pesan("email sudah terdaftar");
+        }
         $kodemember = $_POST['kdmember'];
         $nmmember = $_POST['txtnama'];
         $email=$_POST['txtemail'];
@@ -40,6 +39,7 @@
 			$is_upload = 0;
 			pesan("hanya tipe file jpg yang diperbolehkan!!");	
 		}
+
 		$namafile = "";
 		/**proses upload */
 		if($is_upload == 1){
@@ -51,14 +51,6 @@
 			else if($is_upload == 0){
 				pesan("GAGAL upload file gambar!!");
 			}
-            // ini_set("SMTP", "smtpout.secureserver.net");//confirm smtp
-            // $to = "$email";
-            // $subject = "Test mail";
-            // $message = "Hello! This is a simple email message";
-            // $from = "someonelse@example.com";
-            // $headers = "From: $from";
-            // mail($to,$subject,$message,$headers);
-            // echo "Mail Sent.";
         }
 
         // else if($proses == "update"){

@@ -27,11 +27,7 @@ if (isset($_GET['profile'])) {
                 </div>
                     <div class="row">
                         <div class="col-md-10">
-                            <?php
-                                $idk=$_GET['id'];
-                            $historytsk =  mysqli_query($koneksidb,"select a.tgl_transaksi,a.no_invoice, a.total, a.is_bayar, a.is_closed from tst_penjualan a inner join daftarmember b on a.id_member=b.idmember where a.id_member='$idk'") or die(mysqli_error($koneksidb));
-                            while($hst=mysqli_fetch_array($historytsk)){
-                            ?>
+                        <h3>History transaksi</h3>
                             <table class="table table-bordered">
                                 <tr>
                                     <th>tanggal transaksi</th>
@@ -40,6 +36,11 @@ if (isset($_GET['profile'])) {
                                     <th>status bayar</th>
                                     <th>status transaksi</th>
                                 </tr>
+                                <?php
+                                    $idk=$_GET['id'];
+                                        $historytsk =  mysqli_query($koneksidb,"select a.tgl_transaksi,a.no_invoice, a.total, a.is_bayar, a.is_closed from tst_penjualan a inner join daftarmember b on a.id_member=b.idmember where a.id_member='$idk'") or die(mysqli_error($koneksidb));
+                                        while($hst=mysqli_fetch_array($historytsk)){
+                                    ?>
                                 <tr>
                                     <td><?= $hst['tgl_transaksi'];?></td>
                                     <td><?= $hst['no_invoice'];?></td>

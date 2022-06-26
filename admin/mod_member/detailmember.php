@@ -9,7 +9,7 @@ if (isset($_GET['profile'])) {
             <div class="container" >
                 <div class="row mb-2" style="font-family: 'Courier New', Courier, monospace; font-weight: 400;">
                     <div class="col-md-4">
-                        <img src="../../assets/img/<?=$d['foto'] ?>" class="rounded" width="200px" height="250vh">
+                        <img src="../assets/img/<?=$d['foto'] ?>" class="rounded" width="200px" height="250vh">
                     </div>
                     <div class="col-md-8">
                         <ul class="list-group">
@@ -27,6 +27,11 @@ if (isset($_GET['profile'])) {
                 </div>
                     <div class="row">
                         <div class="col-md-10">
+                            <?php
+                                $idk=$_GET['id'];
+                            $historytsk =  mysqli_query($koneksidb,"select a.tgl_transaksi,a.no_invoice, a.total, a.is_bayar, a.is_closed from tst_penjualan a inner join daftarmember b on a.id_member=b.idmember where a.id_member='$idk'") or die(mysqli_error($koneksidb));
+                            while($hst=mysqli_fetch_array($historytsk)){
+                            ?>
                             <table class="table table-bordered">
                                 <tr>
                                     <th>tanggal transaksi</th>
@@ -35,7 +40,15 @@ if (isset($_GET['profile'])) {
                                     <th>status bayar</th>
                                     <th>status transaksi</th>
                                 </tr>
+                                <tr>
+                                    <td><?= $hst['tgl_transaksi'];?></td>
+                                    <td><?= $hst['no_invoice'];?></td>
+                                    <td><?= $hst['total'];?></td>
+                                    <td><?=($hst['is_bayar'] == 1)?"lunas" : "belum lunas";?></td>
+                                    <td><?=($hst['is_closed'] == 1)?"selesai" : "proses";?></td>
+                                </tr>
                             </table>
+                            <?php } ?>
                         </div>
                     </div>
             </div>

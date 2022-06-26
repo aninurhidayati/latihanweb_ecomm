@@ -11,18 +11,17 @@
 			$th_akhir = substr($kodeakhir,2,4);
 			$th_sekarang = date("Y");
 				if($th_akhir == $th_sekarang){
-					if($no_urutakhir < 10||$no_urutakhir == 0){
-						$nourut_baru = "0". ($no_urutakhir + 1);
-					}
-					else if($no_urutakhir < 100){
-						$nourut_baru = "0". ($no_urutakhir + 1);
-					}
-					else{
+					if ($no_urutakhir ==0||$no_urutakhir < 9) {
+						$nourut_baru = "00" . ($no_urutakhir + 1);
+					} else if ($no_urutakhir >9) {
+						$nourut_baru = "0" . ($no_urutakhir + 1);
+					} else if ($no_urutakhir < 100) {
+						$nourut_baru = "0" . ($no_urutakhir + 1);
+					} else {
 						$nourut_baru = ($no_urutakhir + 1);
 					}
-					// echo "kodenya:".$nourut_baru."<br>";
-				}
-				else{
+					// echo "kodenya:" . $nourut_baru . "<br>";
+				} else {
 					$nourut_baru =  "001";
 				}
 				$kodeterbaru = "MB".$th_sekarang.$nourut_baru;
@@ -35,25 +34,6 @@
 			<div class="row">
 				<div class="col-md-1 pt-4"></div>
 				<div class="col-md-10 pt-4">
-				<?php if (isset($_GET['text'])) { ?>
-        <?php if ($_GET['text'] == "sukses") { ?>
-            <div class="alert alert-success" role="alert">
-                Berhasil Menambahkan Data
-            </div>
-        <?php } elseif ($_GET['text'] == "gagal") { ?>
-            <div class="alert alert-danger" role="alert">
-                Gagal Menambahkan Data
-            </div>
-        <?php } elseif ($_GET['text'] == "ekstensi") { ?>
-            <div class="alert alert-warning" role="alert">
-                Ekstensi File Harus JPG
-            </div>
-        <?php } elseif ($_GET['text'] == "email") { ?>
-            <div class="alert alert-warning" role="alert">
-                \email sudah terdaftar
-            </div>
-		<?php } ?>
-	<?php } ?>
 	<!-- ?page=daftarmember&action=save -->
 					<div class="subkategori p-3" id="formdaftar">
 						<h5 class="text-center pb-2"><b> DAFTAR MEMBER</b></h5>

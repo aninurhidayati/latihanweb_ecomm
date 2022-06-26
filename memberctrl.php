@@ -4,8 +4,11 @@
         // security_login();
     
     if(isset($_POST['submit'])){
-        $cekemail=mysqli_query($koneksidb,"select 'email' from daftarmember");
         // $emailinserted=mysqli_fetch_array($cekemail);
+        $cekemail=mysqli_query($koneksidb,"select * from daftarmember where email='".$_POST['txtemail']."'");
+		// if(mysqli_num_rows($cekemail) > 0){
+        //     pesan("email sudah terdaftar");
+        // }
         $kodemember = $_POST['kdmember'];
         $nmmember = $_POST['txtnama'];
         $email=$_POST['txtemail'];
@@ -25,7 +28,7 @@
 		$is_upload = 1;
         if($email==$cekemail){
             pesan("email sudah terdaftar");
-            header("Location: index.php?page=daftarmember&text==email");
+            // header("Location: index.php?page=daftarmember&text==email");
         }
 		/* cek batas limit file maks.3MB*/
 		if($file['size'] > 2000000){
@@ -48,6 +51,14 @@
 			else if($is_upload == 0){
 				pesan("GAGAL upload file gambar!!");
 			}
+            // ini_set("SMTP", "smtpout.secureserver.net");//confirm smtp
+            // $to = "$email";
+            // $subject = "Test mail";
+            // $message = "Hello! This is a simple email message";
+            // $from = "someonelse@example.com";
+            // $headers = "From: $from";
+            // mail($to,$subject,$message,$headers);
+            // echo "Mail Sent.";
         }
 
         // else if($proses == "update"){
@@ -60,6 +71,6 @@
         echo '<script language="javascript">';
         echo 'alert("'.$alert.'")';  //not showing an alert box.
         echo '</script>';
-        //echo '<meta http-equiv="refresh" content="0; url=http://localhost/latihan_webphp/admin/home.php?modul=mod_upload">';	
+        echo '<meta http-equiv="refresh" content="0; url=http:index.php?page=daftarmember">';	
     }
     ?>

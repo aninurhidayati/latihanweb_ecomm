@@ -2,10 +2,8 @@
 include_once("daftarCtrl.php");
 include_once("detailmember.php");
 ?>
-	<?php
-	    while ($d = mysqli_fetch_array($data_member)) {
-	?>
         <table class="table table-bordered ">
+            
             <tr>
                 <th>id member</th>
                 <th>kode member</th>
@@ -19,6 +17,9 @@ include_once("detailmember.php");
                 <th>jk</th>
                 <th>foto</th>
             </tr>
+            <?php
+	            while ($d = mysqli_fetch_array($data_member)) {
+	        ?>
             <tr>
                 <td><?=$d['idmember'];?></td>
                 <td><?=$d['kode_member'];?></td>
@@ -30,7 +31,8 @@ include_once("detailmember.php");
                 <td><?=$d['no_telp'];?></td>
                 <td><?=$d['alamat'];?></td>
                 <td><?=$d['jk'];?></td>
-                <td><img src="../../assets/img/<?=$d['foto']; ?>" width="200px"></td>
+                <td><img src="../assets/img/<?=$d['foto']; ?>" width="200px"></td>
             </tr>
+            <?php }?>    
         </table>
-    <?php }?>            
+            

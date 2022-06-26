@@ -11,6 +11,7 @@ if (!isset($_GET['action'])) {
             <th>Nama Member</th>
             <th>Total</th>
             <th>Status Bayar</th>
+            <th>Status Pesanan</th>
             <th>Action</th>
         </tr>
         <?php

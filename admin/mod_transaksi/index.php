@@ -24,6 +24,7 @@ if (!isset($_GET['action'])) {
                 <td><?= $lp['nm_member']; ?></td>
                 <td><?= $lp['total']; ?></td>
                 <td><?= ($lp['is_bayar'] == 1) ? "Lunas" : "Belum Lunas" ?></td>
+                <td><?= ($lp['is_closed'] == 1) ? "Selesai" : "Proses" ?></td>
                 <td>
                     <?php
                     if ($lp['is_bayar'] == 1) {

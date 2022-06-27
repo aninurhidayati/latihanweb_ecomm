@@ -62,7 +62,6 @@ if (!isset($_GET['action'])) {
     // echo $th_akhir . " : " . $th_sekarang . "<br>";
     if ($th_akhir == $th_sekarang) {
         //$nourut_baru = $no_urutakhir + 1;
-
         if ($no_urutakhir < 10) {
             $nourut_baru = "000" . ($no_urutakhir + 1);
         } else if ($no_urutakhir < 100) {

@@ -2,10 +2,21 @@
 	<div class="row">
 		<div class="col-md-3 pt-4">
 			<div class="kategori-title">Kategori Produk</div>
-			<div class="subkategori" id="subkategori"></div>
-			<div><!-- percobaan cek sulthan -->
-				<li><a href="?page=kategoriproduk&id=1">kaos</a></li>
-				<li><a href="?page=kategoriproduk&id=2">sweter</a></li>
+			<div class="subkategori">
+			<?php
+            $qry_listkat= mysqli_query($koneksidb,"select * from kategoriproduk order by idkategori DESC")or die("gagal akses tabel kategoriproduk".mysqli_error($connect_db));
+            while($row = mysqli_fetch_array($qry_listkat)){
+            ?>
+            <div class="subkategori" id=""> 
+            <ul>
+                <li> 
+                <a href="?page=kategoriproduk&id=<?php echo $row['idkategori'];?>"><?php echo $row['nmkategori'];?></a>
+                </li>
+            </ul>
+			</div>
+            <?php
+            }
+            ?>
 			</div>
 		</div>
 		<div class="col-md-9 pt-4">

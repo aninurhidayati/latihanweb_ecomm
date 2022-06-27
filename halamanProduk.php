@@ -80,7 +80,7 @@
 				<?php
 				
                     $qlist_produk = mysqli_query($koneksidb, "SELECT a.nmproduk, a.harga, a.gambar 
-					FROM mst_produk a INNER JOIN tst_penjualan b ON b.idproduk=a.idproduk WHERE qty > 5 ORDER BY a.idproduk DESC LIMIT 6;");
+					FROM mst_produk a INNER JOIN tst_penjualan b ON b.idproduk=a.idproduk GROUP BY a.nmproduk ORDER BY b.qty DESC LIMIT 6;");
 					if(isset($_GET['cari'])){
 						$qlist_produk= mysqli_query($koneksidb, "SELECT a.nmproduk, a.harga, a.gambar 
 						FROM mst_produk a INNER JOIN tst_penjualan b ON b.idproduk=a.idproduk WHERE a.nmproduk like '%".$_GET['cari']."%'");

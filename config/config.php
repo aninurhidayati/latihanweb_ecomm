@@ -1,5 +1,6 @@
 <?php 
 //contoh : http://localhost/latihanweb_ecomm/admin/home.php
+date_default_timezone_set("Asia/Jakarta");
 /**menampilkan server atau domain  */
 $set_server = "http://".$_SERVER['HTTP_HOST']; //output: localhost
 /**menampilkan url selain nama server atau domain */

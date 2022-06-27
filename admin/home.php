@@ -15,10 +15,15 @@ security_login();
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 	<!-- link icon bootstrap -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+	<style>
+		body{
+			padding-top: 60px;			
+		}
+	</style>
 </head>
 
 <body>
-	<nav class="navbar navbar-light bg-primary">
+	<nav class="navbar fixed-top navbar-light bg-primary">
 		<div class="container-fluid">
 			<a class="navbar-brand text-white">Navbar</a>
 			<form class="d-flex">
@@ -47,7 +52,6 @@ security_login();
 						include_once $_GET['modul'] . "/index.php";
 					}
 					?>
-
 				</div>
 			</div>
 		</div>

@@ -1,5 +1,10 @@
 <?php
 include_once("transaksiCtrl.php");
+function rupiah($angka)
+{
+    $hasil_rupiah = "Rp." . number_format($angka, 2, ',', '.');
+    return $hasil_rupiah;
+}
 if (!isset($_GET['action'])) {
 ?>
     <a href="?modul=mod_transaksi&action=add" class="btn btn-primary btn-xs mb-1">Tambah Data</a>
@@ -11,6 +16,7 @@ if (!isset($_GET['action'])) {
             <th>Nama Member</th>
             <th>Total</th>
             <th>Status Bayar</th>
+            <th>Status Pesanan</th>
             <th>Action</th>
         </tr>
         <?php
@@ -22,11 +28,12 @@ if (!isset($_GET['action'])) {
                 <td><?= $lp['tgl_transaksi']; ?></td>
                 <td><?= $lp['nmproduk']; ?></td>
                 <td><?= $lp['nm_member']; ?></td>
-                <td><?= $lp['total']; ?></td>
+                <td><?= rupiah($lp['total']); ?></td>
                 <td><?= ($lp['is_bayar'] == 1) ? "Lunas" : "Belum Lunas" ?></td>
+                <td><?= ($lp['is_closed'] == 1) ? "Selesai" : "Proses" ?></td>
                 <td>
                     <?php
-                    if ($lp['is_closed'] == 1) {
+                    if ($lp['is_bayar'] == 1) {
                     ?>
                         <a href="?modul=mod_transaksi&action=edit&id=<?= $lp['no_invoice']; ?>" class="btn btn-xs btn-primary"><i class="bi bi-pencil-square"></i> Edit</a>
                         <a href="?modul=mod_transaksi&action=delete&id=<?= $lp['no_invoice']; ?>" class="btn btn-xs btn-danger"><i class="bi bi-trash"></i> Delete</a>
@@ -62,11 +69,12 @@ if (!isset($_GET['action'])) {
     // echo $th_akhir . " : " . $th_sekarang . "<br>";
     if ($th_akhir == $th_sekarang) {
         //$nourut_baru = $no_urutakhir + 1;
-        if ($no_urutakhir < 10) {
+
+        if ($no_urutakhir < 9) {
             $nourut_baru = "000" . ($no_urutakhir + 1);
-        } else if ($no_urutakhir < 100) {
+        } else if ($no_urutakhir < 99) {
             $nourut_baru = "00" . ($no_urutakhir + 1);
-        } else if ($no_urutakhir < 1000) {
+        } else if ($no_urutakhir < 999) {
             $nourut_baru = "0" . ($no_urutakhir + 1);
         } else {
             $nourut_baru = ($no_urutakhir + 1);
@@ -82,7 +90,7 @@ if (!isset($_GET['action'])) {
     <?php
     if ($proses == "insert") {
     ?>
-        <form action="?modul=mod_transaksi&action=save" id="formtransaksi" method="POST">
+        <form action="?modul=mod_transaksi&action=save" id="formtransaksi" method="POST" enctype="multipart/form-data">
             <div class="row">
                 <label class="col-md-2">Kode</label>
                 <div class="col-md-5">
@@ -107,7 +115,7 @@ if (!isset($_GET['action'])) {
             <div class="row pt-3">
                 <label class="col-md-2">Produk</label>
                 <div class="col-md-5">
-                    <select name="produk" id="produk" class="form-control">
+                    <select name="produk" id="produk" class="form-control" required>
                         <option value="" selected disabled>--Pilih Produk--</option>
                         <?php
                         foreach ($data_produk as $p) :
@@ -128,13 +136,13 @@ if (!isset($_GET['action'])) {
             <div class="row pt-3">
                 <label class="col-md-2">Harga</label>
                 <div class="col-md-5">
-                    <input type="text" name="harga" id="harga" class="form-control" readonly>
+                    <input type="text" name="harga" id="harga" class="form-control" readonly required>
                 </div>
             </div>
             <div class="row pt-3">
                 <label class="col-md-2">Qty</label>
                 <div class="col-md-5">
-                    <input type="text" name="qty" id="qty" class="form-control">
+                    <input type="text" name="qty" id="qty" class="form-control" required>
                 </div>
             </div>
             <div class="row pt-3">
@@ -144,9 +152,27 @@ if (!isset($_GET['action'])) {
                 </div>
             </div>
             <div class="row pt-3">
+                <label class="col-md-2">Status Bayar</label>
+                <div class="col-md-5">
+                    <input class="form-check-input" type="checkbox" id="statusbayar" name="statusbayar">
+                </div>
+            </div>
+            <div class="row pt-3">
+                <label class="col-md-2">Status Pesanan</label>
+                <div class="col-md-5">
+                    <input class="form-check-input" type="checkbox" id="statuspesanan" name="statuspesanan">
+                </div>
+            </div>
+            <div class="row pt-3">
+                <label class="col-md-2">Bukti Pembayaran</label>
+                <div class="col-md-5">
+                    <input type="file" id="bukti" name="bukti" class="form-control">
+                </div>
+            </div>
+            <div class="row pt-3">
                 <label class="col-md-2"></label>
                 <div class="col-md-5">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="button" id="btnsubmit" class="btn btn-primary">Simpan</button>
                     <a href="home.php?modul=mod_transaksi"><button type="button" class="btn btn-warning">Kembali</button></a>
                 </div>
             </div>
@@ -174,7 +200,19 @@ if (!isset($_GET['action'])) {
             <div class="row pt-3">
                 <label class="col-md-2">Bukti Pembayaran</label>
                 <div class="col-md-5">
-                    <input type="file" id="bukti" name="bukti" class="form-control">
+                    <input type="hidden" name="gambarlama" value="<?= $dt['buktipembayaran']; ?>">
+                    <?php
+                    if ($dt['buktipembayaran'] == "") {
+                    ?>
+                        <input type="file" id="buktipembayaran" name="buktipembayaran" class="form-control">
+                    <?php
+                    } else {
+                    ?>
+                        <img src="../assets/img/<?= $dt['buktipembayaran']; ?>" class="img img-thumbnail mb-3" width="150px" alt="">
+                        <input type="file" id="buktipembayaran" name="buktipembayaran" class="form-control">
+                    <?php
+                    }
+                    ?>
                 </div>
             </div>
             <div class="row pt-3">
@@ -186,6 +224,22 @@ if (!isset($_GET['action'])) {
             </div>
         </form>
     <?php } ?>
+    <div class="modal" tabindex="-1" id="modalsubmit">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Konfirmasi</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Apakah Anda yakin ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btntidak" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+                    <button type="button" id="btnya" class="btn btn-primary">Ya</button>
+                </div>
+            </div>
+        </div>
+    </div>
 <?php
 }
 ?>

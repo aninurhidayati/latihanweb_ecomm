@@ -18,7 +18,7 @@ else if(isset($_GET['action']) && ($_GET['action']== "edit")){
 	$iduser = $_GET['id_user']; //dapat dari URL
 	$listkategori = mysqli_query($koneksi_db,
 			"select * from mst_userlogin where is_active = 1 order by id_user DESC")
-			or die("gagal akses table mst_menu ".mysqli_error($koneksi_db));
+			or die("gagal akses table mst_userlogin ".mysqli_error($koneksi_db));
 	$qdata = mysqli_query($koneksi_db,"select m.*, k.nm_kategori from mst_blog m 
 				inner join mst_kategoriblog k on m.id_kategori=k.id_kategori where id_blog=$idkey")
 			or die(mysqli_error($koneksi_db));

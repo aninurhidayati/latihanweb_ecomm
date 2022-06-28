@@ -1,16 +1,43 @@
+<section id="header">
+		<div class="container ps-0 pt-2">
+			<div class="row">
+                <form action="" method="post">
+                    <div class="input-group mb-3">
+                        <input type="text" name="txt_cari" placeholder="Cari Produk Disini" class="form-control border-secondary" aria-label="Recipient's username" aria-describedby="button-addon2">
+                        <button type="submit" name="cari" class="btn btn-outline-warning text-secondary" id="button-addon2">Search</button>
+                    </div>
+                </form>
+			</div>
+		</div>
+	</section>
 <div class="container pb-5">
 	<div class="row">
         <div class="col-md-2"></div>
-		<div class="col-md-8 pt-4">
+		<div class="col-md-8 pt-2">
 			<div class="row">
-                <h1 class="text text-center">Onigiri</h1>
-                <hr>
+                <!-- judul kategori -->
                 <?php
                     $idkey = $_GET['id'];
-                    $qlist_produk = mysqli_query($koneksidb, "SELECT mp.nmproduk, mp.harga, mp.gambar
-                    FROM mst_produk mp INNER JOIN kategoriproduk kp ON mp.idkategori=kp.idkategori WHERE kp.idkategori = $idkey
-                    ORDER BY mp.idproduk DESC LIMIT 6;");
-                    foreach($qlist_produk as $lp) :
+                    $qlist_produk = mysqli_query($koneksidb, "SELECT kp.nmkategori
+                        FROM kategoriproduk kp WHERE kp.idkategori = $idkey;");
+                    $qj = mysqli_fetch_array($qlist_produk)
+                ?>
+                <h1 class="text text-center pb-3 pt-3 border border">Onigiri <?= $qj['nmkategori'];?></h1>
+                <hr>
+                <!-- tampil produk -->
+                <?php
+                    $idkey = $_GET['id'];
+                    if(isset($_POST['cari'])){
+                        $cproduk = " AND nmproduk LIKE '%".$_POST["txt_cari"]."%' ";
+                    }
+                    else{
+                        $cproduk = "";
+                    }
+                    $qlist_produk = mysqli_query($koneksidb, "SELECT mp.nmproduk, mp.harga, mp.gambar, kp.nmkategori
+                        FROM mst_produk mp INNER JOIN kategoriproduk kp ON mp.idkategori=kp.idkategori WHERE kp.idkategori = $idkey
+                        $cproduk 
+                        ORDER BY mp.idproduk DESC LIMIT 6;");
+                     foreach($qlist_produk as $lp) : 
                 ?>
 				<div class="col-md-4 pb-4">
 					<div class="card">

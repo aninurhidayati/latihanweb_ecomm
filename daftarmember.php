@@ -10,6 +10,7 @@
 			$no_urutakhir = substr($kodeakhir,6);
 			$th_akhir = substr($kodeakhir,2,4);
 			$th_sekarang = date("Y");
+			if(mysqli_num_rows($query_cekkode)==0){
 				if($th_akhir == $th_sekarang){
 					if ($no_urutakhir ==0||$no_urutakhir < 9) {
 						$nourut_baru = "00" . ($no_urutakhir + 1);
@@ -29,6 +30,7 @@
 				// echo "kode: ".$kodeterbaru;
 				//untuk contoh combo
 				// $data_produk = mysqli_query($koneksidb,"select * from mst_produk ");
+			}
 			?>
 		<div class="container pb-5">
 			<div class="row">

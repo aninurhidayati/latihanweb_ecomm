@@ -6,6 +6,7 @@ if (isset($_GET['profile'])) {
 	    while ($d = mysqli_fetch_array($data_member)) {
             if(isset($_GET['id']) && ($_GET['id']==$d['idmember'])){
 	?>
+    
             <div class="container" >
                 <div class="row mb-2" style="font-family: 'Courier New', Courier, monospace; font-weight: 400;">
                     <div class="col-md-4">
@@ -25,6 +26,13 @@ if (isset($_GET['profile'])) {
                         </ul>
                     </div>
                 </div>
+                <?php 
+            }
+        }
+    }else if(isset($_GET['history'])){
+        while ($d = mysqli_fetch_array($data_member)) {
+        if(isset($_GET['id']) && ($_GET['id']==$d['idmember'])){
+                ?>
                     <div class="row">
                         <div class="col-md-10">
                         <h3>History transaksi</h3>
@@ -50,10 +58,9 @@ if (isset($_GET['profile'])) {
                                 </tr>
                             </table>
                             <?php } ?>
+                            <?php } ?>
                         </div>
                     </div>
             </div>
 	    <?php }?>
-    <?php } ?>
-<?php } ?>               
- 
+	<?php }?>

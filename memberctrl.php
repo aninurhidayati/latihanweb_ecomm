@@ -4,10 +4,10 @@
         // security_login();
     
     if(isset($_POST['submit'])){
-        $cekemail=mysqli_query($koneksidb,"select * from daftarmember where email='".$_POST['txtemail']."'");
+        $cekemail=mysqli_query($koneksidb,"select email from daftarmember where email='".$_POST['txtemail']."'");
         if(mysqli_num_rows($cekemail) > 0){
             pesan("email sudah terdaftar");
-        }
+        }       
         $kodemember = $_POST['kdmember'];
         $nmmember = $_POST['txtnama'];
         $email=$_POST['txtemail'];
@@ -47,6 +47,7 @@
 				$namafile = $file['name'];
                 mysqli_query($koneksidb,"INSERT into daftarmember (kode_member,nm_member,email,password,tgl_daftar,tgl_lhr,no_telp,alamat,jk,foto) VALUES ('$kodemember','$nmmember','$email','$pass','$tgldaftar','$tgllhr','$notelp','$alamat','$jk','$namafile')") or die (mysqli_error($koneksidb));
                 header("Location: index.php?page=daftarmember");
+             
             }
 			else if($is_upload == 0){
 				pesan("GAGAL upload file gambar!!");

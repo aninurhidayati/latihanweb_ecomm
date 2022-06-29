@@ -2,9 +2,7 @@
 	require_once("config/koneksidb.php");
 	require_once("config/config.php");
  ?>
-<!DOCTYPE html>
-<html lang="en">
-
+ <html lang="en">
 <head>
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -17,20 +15,18 @@
 	</script>
 	<link rel="stylesheet" href="assets/styles.css" />
 </head>
-
 <body>
 	<!-- navbar -->
 	<nav class="navbar navbar-expand-lg navbar-light bgnav" style="color: white !important">
 		<div class="container pe-5 ps-5">
 			<ul class="navbar-nav ms-auto mb-2 mb-lg-0 fontnav text-white">
 				<li class="nav-item">
-					<a href="index.php" class="nav-link">HOME</a>
+					<a href="index.html" class="nav-link">HOME</a>
 				</li>
 				<li class="nav-item">
-					<a href="halamanProduk.php" class="nav-link">PRODUCT</a>
+					<a href="#" class="nav-link">PRODUCT</a>
 				</li>
 			</ul>
-
 			<div class="collapse navbar-collapse text-white" id="navbarSupportedContent">
 				<ul class="navbar-nav ms-auto mb-2 mb-lg-0 fontnav">
 					<li class="nav-item">
@@ -39,6 +35,10 @@
 					<li class="nav-item">
 						<a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
 					</li>
+               <form method="get" class="d-flex" role="search">
+                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="cari">
+                 <button class="btn btn-outline-success" type="submit">Search</button>
+                  </form>
 				</ul>
 			</div>
 		</div>
@@ -55,14 +55,56 @@
 	</section>
 	<!-- konten -->
 	<section id="konten ">
-		<?php 
-			if(isset($_GET['page'])){
-				include_once("".$_GET['page'].".php");
-			}
-			else{
-				include_once("home.php");
-			}
-		 ?>
+	<div class="row">
+		<h4 class="text-center pt-2"> Penjualan Terbanyak </h4>
+        <div class="col-md-1"></div>
+		<div class="col-md-2 pt-4">
+			<div class="kategori-title">Kategori Produk</div>
+             <?php
+            $qry_listkat= mysqli_query($koneksidb,"select * from kategoriproduk order by idkategori DESC")or die("gagal akses tabel kategoriproduk".mysqli_error($connect_db));
+            while($row = mysqli_fetch_array($qry_listkat)){
+            ?>
+            <div class="subkategori" id=""> 
+            <ul>
+                <li> 
+                <a href=""><?php echo $row['nmkategori'];?></a>
+                </li>
+            </ul>
+			</div>
+            <?php
+            }
+            ?>
+		</div>
+		<div class="col-md-8 pt-4">
+			<div class="row">
+				<?php
+				
+                    $qlist_produk = mysqli_query($koneksidb, "SELECT a.nmproduk, a.harga, a.gambar 
+					FROM mst_produk a INNER JOIN tst_penjualan b ON b.idproduk=a.idproduk GROUP BY a.nmproduk ORDER BY b.qty DESC LIMIT 6;");
+					if(isset($_GET['cari'])){
+						$qlist_produk= mysqli_query($koneksidb, "SELECT a.nmproduk, a.harga, a.gambar 
+						FROM mst_produk a INNER JOIN tst_penjualan b ON b.idproduk=a.idproduk WHERE a.nmproduk like '%".$_GET['cari']."%'");
+					}
+                    foreach($qlist_produk as $lp) :
+                ?>
+				<div class="col-md-4 pb-4">
+					<div class="card">
+						<img src="assets/img/<?= $lp['gambar'];?>" class="card-img-top" alt="..." />
+						<div class="card-body text-center bgcardbody">
+							<h5 class="card-title"><?= $lp['nmproduk'];?></h5>
+							<h6 class="harga"><?= "Rp.".$lp['harga'];?></h6>
+						</div>
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item btndetail">
+								<a href="?page=detailprodukphp?id=<?= $row['id_produk']; ?>" target="_blank" class="text-white">Detail</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<?php endforeach;?>
+			</div>
+		</div>
+	</div>
 	</section>
 	<!-- footer -->
 	<section id="footer" class="bgnav text-white">
@@ -109,7 +151,6 @@
 						<button type="submit" name="btnlogin" id="btnkeluar" class="btn btn-primary">Login</button>
 					</div>
 				</div>
-				<a href="?page=lupapassword"> Lupa Password?</a>
 			</form>
 		</div>
 	</div>
@@ -124,5 +165,4 @@
 	<script src="assets/js/agung.js"></script>
 	<script src="assets/js/putra.js"></script>
 </body>
-
 </html>

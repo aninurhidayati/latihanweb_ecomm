@@ -46,7 +46,7 @@ if (isset($_GET['profile'])) {
                                 </tr>
                                 <?php
                                     $idk=$_GET['id'];
-                                        $historytsk =  mysqli_query($koneksidb,"select a.tgl_transaksi,a.no_invoice, a.total, a.is_bayar, a.is_closed from tst_penjualan a inner join daftarmember b on a.id_member=b.idmember where a.id_member='$idk'") or die(mysqli_error($koneksidb));
+                                        $historytsk =  mysqli_query($koneksidb,"select a.tgl_transaksi,a.no_invoice, a.total, a.is_bayar, a.is_closed from tst_penjualan a inner join daftarmember b on a.idmember=b.idmember where a.idmember='$idk'") or die(mysqli_error($koneksidb));
                                         while($hst=mysqli_fetch_array($historytsk)){
                                     ?>
                                 <tr>

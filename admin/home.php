@@ -21,7 +21,6 @@ security_login();
 		}
 	</style>
 </head>
-
 <body>
 	<nav class="navbar fixed-top navbar-light bg-primary">
 		<div class="container-fluid">

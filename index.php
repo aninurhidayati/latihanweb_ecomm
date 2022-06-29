@@ -26,7 +26,7 @@
 					<a href="index.php" class="nav-link">HOME</a>
 				</li>
 				<li class="nav-item">
-					<a href="halamanProduk.php" class="nav-link">PRODUCT</a>
+					<a href="?page=halamanProduk" class="nav-link">PRODUCT</a>
 				</li>
 			</ul>
 

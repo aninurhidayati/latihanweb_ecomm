@@ -1,11 +1,14 @@
-// if (document.getElementById("lkategori")) {
-//   let lk = "<?= $q['nmkategori']?>";
-//   let list = "<ul>";
-//   kategori.forEach((item) => {
-//     list += "<li><a href='#'>" + item.lk + "</a></li>";
-//     //menyisipkan hasil variabel ke html
-//   });
-//   let listkategori = document.getElementById("lkategori");
-//   list += "</ul>";
-//   listkategori.innerHTML = list;
-// }
+$("#txtkonfirm").click(function () {
+  let user = $("#txtnnama").val();
+  let pass_baru = $("#txtnpass").val();
+  if (user == "" || user == null) {
+    alert("username wajib diisi");
+  } else if (pass_baru == "" || pass_baru == null) {
+    alert("password baru wajib diisi");
+  } else {
+    $("#konfirmasi").modal("show");
+  }
+});
+function pesan() {
+  alert("username belum terdaftaar");
+}

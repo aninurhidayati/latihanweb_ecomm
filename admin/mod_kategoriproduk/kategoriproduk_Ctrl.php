@@ -19,7 +19,7 @@ if (isset($_GET['action']) && ($_GET['action'] == "add")) {
     $id = $_POST['idkategori_edt'];
     $nama_up = $_POST['nmkategori_edt'];
     mysqli_query($koneksidb, "UPDATE kategoriproduk SET nmkategori='$nama_up' WHERE idkategori='$id'");
-    header("Location: home.php?modul=mod_kategoriproduk");
+    header("Location: home.php?modul=mod_kategoriproduk"); 
 } else if (isset($_GET['action']) && ($_GET['action'] == "delete")) {
     $id = $_GET['id'];
 

@@ -1,9 +1,9 @@
 <?php
 include 'produk_Ctrl.php';
-if (!isset($_GET['act'])) {
+if (!isset($_GET['action'])) {
 ?>
  <div class="container-lg mt-1 ">
-<a href="?modul=mod_kategoriproduk&action=add" class="btn btn-primary mb-2 sticky-top">Tambah Data</a>
+<a href="?modul=mod_produk&action=add" class="btn btn-primary mb-2 sticky-top">Tambah Data</a>
     <table class="table table-striped table-primary table-bordered border-info">
         <tr>
             <th>Nama Kategori</th>
@@ -32,4 +32,90 @@ if (!isset($_GET['act'])) {
             ?>
         </table>
 </div>
-<?php } ?>
+<?php
+ } else if (isset($_GET['action']) && ($_GET['action'] == "add")) {
+?>
+<?php 
+ $dt_kategoriproduk = mysqli_query($koneksidb, "select * from kategoriproduk");
+?>
+<div class="container-lg mt-1">
+    <h3 class="mt-1"><?php echo $judul; ?></h3>
+    <div class="row mt-4">
+        <div class="col">
+         <form action="mod_kategoriproduk/produk_Ctrl.php?modul=mod_produk&action=save" id="kategori_produk" method="POST">
+            <div class="mb-3 row">
+                <label for="nmproduk_ins" class="col-sm-2 col-form-label">Nama Produk</label>
+             <div class="col-sm-6">
+                <input type="text" class="form-control" id="nmproduk_ins" name="nmproduk_ins">
+             </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="img_upload" class="col-sm-2 col-form-label">Gambar</label>
+                <div class="col-sm-6">
+                    <input type="file" class="form-control" id="img_upload" name="img_upload">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="idkategori_ins" class="col-sm-2 col-form-label">Kategori</label>
+                <div class="col-sm-6">
+                    <select name="idkategori_ins" id="idkategori_ins" class="form-control">
+                        <option value="" selected disabled>--Pilih Produk--</option>
+                        <?php
+                         foreach ($dt_kategoriproduk as $dt_kp) :
+                        ?>
+                         <option value="<?= $dt_kp['idkategori']; ?>"><?= $dt_kp['nmkategori']; ?></option>
+                        <?php
+                        endforeach;
+                        ?>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="harga" class="col-sm-2 col-form-label">Harga</label>
+                <div class="col-sm-6">
+                    <input type="number" class="form-control" id="harga_ins" name="harga_ins">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="harga" class="col-sm-2 col-form-label">stock</label>
+                <div class="col-sm-6">
+                    <input type="number" class="form-control" id="stock_ins" name="stock_ins">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="harga" class="col-sm-2 col-form-label">Kondisi</label>
+                <div class="col-sm-6">
+                <select class="form-select form-select-lg mb-3" name="kondisi_ins" id="kondisi_ins" aria-label="size 3 select example">
+                    <option value="" selected disabled>--Pilih Kondisi--</option>
+                    <option value="baru">baru</option>
+                    <option value="bekas">bekas</option>
+                </select>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="deskripsi" class="col-sm-2 col-form-label">Isi</label>
+                <div class="col-sm-6">
+                    <textarea class="form-control" id="deskripsi" cols="30" rows="10" name="deskripsi"></textarea>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="harga" class="col-sm-2 col-form-label">Berat</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="berat_ins" name="berat_ins">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-10">
+                    <a href="?modul=mod_kategoriproduk" type="cancel" class="btn btn-secondary"><i class="bi bi-box-arrow-left"></i> Kembali</a>
+                    <button type="cancel" class="btn btn-danger"><i class="bi bi-x-square"></i> Reset</button>
+                    <button type="button" id="btnsimpan" data-bs-toggle="modal" class="btn btn-primary"><i class="bi bi-save"></i> Submit</button>
+                </div>
+            </div>
+         </form>
+        </div>
+    </div>
+</div>
+<?php 
+ }
+?>

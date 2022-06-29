@@ -9,7 +9,7 @@ if(!$koneksidb){
 	echo "<h3>koneksi gagal!! </h3>";
 	exit;
 }else{
-    echo "<h3>koneksi berhasil</h3>" ;
+    echo "<h3></h3>" ;
 }
 //set database
 mysqli_select_db($koneksidb, $database);

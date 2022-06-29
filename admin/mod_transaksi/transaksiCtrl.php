@@ -70,7 +70,8 @@ if (!isset($_GET['action'])) {
                     pesan("GAGAL upload file gambar!!");
                 }
             }
-        } else {
+        } 
+        else {
             if ($_GET['action'] == "update") {
                 $namafile = $_POST['file_uploaded'];
             } else {

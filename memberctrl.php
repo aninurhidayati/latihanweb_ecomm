@@ -7,7 +7,7 @@
         $cekemail=mysqli_query($koneksidb,"select email from daftarmember where email='".$_POST['txtemail']."'");
         if(mysqli_num_rows($cekemail) > 0){
             pesan("email sudah terdaftar");
-        }       
+        }else{
         $kodemember = $_POST['kdmember'];
         $nmmember = $_POST['txtnama'];
         $email=$_POST['txtemail'];
@@ -58,7 +58,7 @@
         //     mysqli_query($koneksidb,"update mst_menu set nmmenu='$nmmenu' where idmenu = $idmenu ")or die(mysqli_error($koneksidb));
         //     echo '<meta http-equiv="refresh" content="0; url='.ADMIN_URL.'?modul=mod_menu">';
         // }
-        
+        } 
     }
     function pesan($alert){	
         echo '<script language="javascript">';

@@ -60,7 +60,11 @@ if (!isset($_GET['action'])) {
         "select no_invoice from tst_penjualan ORDER BY no_invoice DESC LIMIT 0,1"
     );
     $cekkode = mysqli_fetch_array($query_cekkode);
-    $kodeakhir = $cekkode['no_invoice'];
+    if (mysqli_num_rows($query_cekkode) == 0) {
+        $kodeakhir = "INV-";
+    } else {
+        $kodeakhir = $cekkode['no_invoice'];
+    }
     // echo $kodeakhir . "<br>";
     $no_urutakhir = substr($kodeakhir, 8);
     // echo $no_urutakhir . "<br>";

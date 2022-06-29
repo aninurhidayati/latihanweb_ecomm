@@ -5,11 +5,13 @@
 	<?php 
 		$query_cekkode = mysqli_query($koneksidb,
 		"select kode_member from daftarmember ORDER BY kode_member DESC LIMIT 0,1");
-			$cekkode = mysqli_fetch_array($query_cekkode);		
+			$cekkode = mysqli_fetch_array($query_cekkode);
+			if(mysqli_num_rows($query_cekkode) < 9){
 			$kodeakhir = $cekkode['kode_member'];
 			$no_urutakhir = substr($kodeakhir,6);
 			$th_akhir = substr($kodeakhir,2,4);
 			$th_sekarang = date("Y");
+			
 				if($th_akhir == $th_sekarang){
 					if ($no_urutakhir ==0||$no_urutakhir < 9) {
 						$nourut_baru = "00" . ($no_urutakhir + 1);
@@ -29,12 +31,12 @@
 				// echo "kode: ".$kodeterbaru;
 				//untuk contoh combo
 				// $data_produk = mysqli_query($koneksidb,"select * from mst_produk ");
+			}
 			?>
 		<div class="container pb-5">
 			<div class="row">
 				<div class="col-md-1 pt-4"></div>
 				<div class="col-md-10 pt-4">
-	<!-- ?page=daftarmember&action=save -->
 					<div class="subkategori p-3" id="formdaftar">
 						<h5 class="text-center pb-2"><b> DAFTAR MEMBER</b></h5>
 						<div class="row">

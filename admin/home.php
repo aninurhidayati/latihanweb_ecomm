@@ -1,11 +1,12 @@
 <?php
 session_start();
- require_once("../config/koneksidb.php");
- require_once("../config/config.php");
+require_once("../config/koneksidb.php");
+require_once("../config/config.php");
 security_login();
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,8 +17,8 @@ security_login();
 	<!-- link icon bootstrap -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 	<style>
-		body{
-			padding-top: 60px;			
+		body {
+			padding-top: 60px;
 		}
 	</style>
 </head>
@@ -38,9 +39,12 @@ security_login();
 			<div class="col-md-3">
 				<div class="container">
 					<div class="list-group">
-						<a href="?modul=mod_menu" class="list-group-item list-group-item-action ">
-							<i class="bi bi-person"></i> Menu
-						</a>
+						<!-- <a href="?modul=mod_menu" class="list-group-item list-group-item-action "> -->
+						<!-- <i class="bi bi-person"></i> Menu -->
+						<?php
+						include_once("menu.php");
+						?>
+						<!-- </a> -->
 					</div>
 				</div>
 			</div>

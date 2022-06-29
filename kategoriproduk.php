@@ -22,7 +22,7 @@
                         FROM kategoriproduk kp WHERE kp.idkategori = $idkey;");
                     $qj = mysqli_fetch_array($qlist_produk)
                 ?>
-                <h1 class="text text-center pb-3 pt-3 border border">Onigiri <?= $qj['nmkategori'];?></h1>
+                <h1 class="text text-center pb-3 pt-3 border border">Kategori <?= $qj['nmkategori'];?></h1>
                 <hr>
                 <!-- tampil produk -->
                 <?php

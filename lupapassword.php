@@ -1,5 +1,6 @@
 <!-- lupa passwordCtrl -->
 <?php
+session_start();
 	if(isset($_POST['oke'])){
 		$txt_user = $_POST['txtnnama'];
 		$txt_pass = md5($_POST['txtnpass']);
@@ -7,14 +8,14 @@
 		$quser = mysqli_query($koneksidb, "SELECT u.username FROM mst_userlogin u WHERE u.username LIKE '".$_POST['txtnnama']."' ");
 		$row = mysqli_fetch_array($quser);
 			if($txt_user != $row['username']){
-				header("Location: index.php?page=home");
+				$_SESSION["ckuser"] = "gagal";
+				header("Location: index.php?page=lupapassword");
         	} else{
 				$qinsert = mysqli_query($koneksidb, "INSERT INTO tst_request (username, password_baru, date_request) 
 				VALUES ('$txt_user', '$txt_pass', '$datein')")or die(mysqli_error($koneksidb));
-					header("Location: index.php?page=lupapassword");
+					header("Location: index.php?page=home");
 			} ;
 	}
-
 ?>
 <!-- form lupa password -->
 <?php
@@ -33,7 +34,7 @@ if(!isset($_GET['action'])){
 						<div class="row pb-1">
 							<label for="txtnama" class="col-md-3">Ussername</label>
 							<div class="col-md-6">
-								<input type="text" name="txtnnama" id="txtnnama" class="form-control" />
+								<input type="text" name="txtnnama" id="txtnnama" class="form-control"/>
 							</div>
 						</div>
 						<div class="row pb-1">
@@ -42,10 +43,17 @@ if(!isset($_GET['action'])){
 								<input type="Password" name="txtnpass" id="txtnpass" class="form-control" />
 							</div>
 						</div>
-						<div class="row">
+						<div class="row"> 
 							<div class="col-md-3"></div>
 							<div class="col-md-6">
-								<button type="button" id="txtkonfirm" class="btn btn-warning form-control" data-bs-toggle="modal">
+							<?php
+								if(isset($_SESSION['ckuser'])):
+							?>
+								<div id="liveAlertPlaceholder">Username Belum Terdaftar, Silahkan Daftar Dulu</div>
+							<?php 
+								endif;
+							?>
+								<button type="button" name="txtkonfirm" id="txtkonfirm" class="btn btn-warning form-control" data-bs-toggle="modal">
  							 		Request
 								</button>
 							</div>

@@ -1,90 +1,163 @@
 <?php
-include_once("loginCtrl.php");
+include_once("loginctrl.php");
 if (!isset($_GET['action'])) {
 ?>
 	<a href="?modul=mod_userlogin&action=add" class="btn btn-primary btn-xs mb-1">Tambah Data</a>
 	<table class="table table-bordered">
 		<tr>
-			<th>Id User</th>
-			<th>Username</th>
-            <th>Nama Lengkap</th>
-            <th>Password</th>
-            <th>Is Active</th>
-            <th>Action</th>
+			<th>id  user</th>
+			<th>username</th>
+			<th>nama  lengkap</th>
+			<th>password</th>
+			<th>is active</th>
+			<th>Action</th>
 		</tr>
 		<?php
-        $qrylogin = mysqli_query($koneksidb,"select * from mst_userlogin");
-		while ($d = mysqli_fetch_array($qrylogin)) {
+        $listuser=mysqli_query($koneksidb,"SELECT  * from mst_userlogin");
+		while ($list = mysqli_fetch_array($listuser)) {
 		?>
         <tr>
-            <td><?=$d['iduser'] ?></td>
-            <td><?=$d['username'] ?></td>
-            <td><?=$d['nama_lengkap'] ?></td>
-            <td><?=$d['password'] ?></td>
-            <td><?=$d['is_active'] ?></td>
-            <td><a href="?modul=mod_userlogin&action=edit&id=<?= $d['iduser']; ?>" class="btn btn-xs btn-primary"><i class="bi bi-pencil-square"></i> Edit</a>
-            <a href="?modul=mod_userlogin&action=delete&id=<?= $d['iduser']; ?>" class="btn btn-xs btn-danger"><i class="bi bi-trash"></i> Delete</a></td>
+            <td><?=$list['iduser']; ?></td>
+            <td><?=$list['username']; ?></td>
+            <td><?=$list['nama_lengkap']; ?></td>
+            <td><?=$list['password']; ?></td>
+            <td><?=$list['is_active']; ?></td>
+            <td> 
+                <a href="?modul=mod_userlogin&action=edit&id=<?=$list['iduser']; ?>" class="btn btn-primary">
+                        <i class="bi bi-pencil-square"></i>edit</a>
+                <a href="?modul=mod_userlogin&action=delete&id=<?=$list['iduser']; ?>" class="btn btn-danger">
+                        <i class="bi bi-trash"></i>delete</a>
+            </td>
         </tr>
-        <?php 
-        }
-        ?>
+        <?php } ?>
 	</table>
-
-    <?php
-    }else if(isset($_GET['action']) && ($_GET['action']=="add") || ($_GET['action']=="edit")){
+	<?php } else if (isset($_GET['action']) && ($_GET['action'] == "add" || $_GET['action'] == "edit")) {
+        if($proses=="insert"){
     ?>
-    <div class="container-fluid">
-	<h3><?= $judul; ?>.</h3>
-	<form action="mod_userlogin/loginCtrl.php?modul=mod_userlogin&action=save" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="idblog" value="<?= $idblog; ?>">
-		<input type="hidden" name="author" value="<?= $_SESSION['userlogin']; ?>">
-		<input type="hidden" name="action" value="<?= $action; ?>">
-		<div class="row">
-			<div class="col-md-2">Username</div>
-			<div class="col-md-6">
-				<input type="text" name="username" id="username" class="form-control">
+	<form action="?modul=mod_userlogin&action=save" id="formuser" method="POST">
+        <div class="row">
+			<label class="col-md-3">username</label>
+			<div class="col-md-5">
+            <input type="hidden" name="proses" value="<?= $proses; ?>">
+            <input type="hidden" name="iduser" value="<?= $upiduser; ?>">
+				<input type="text" name="user" id="user" class="form-control" >
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-2">Nama Lengkap</div>
-			<div class="col-md-6">
-				<input type="text" name="name" id="name" class="form-control">
+			<label class="col-md-3">Nama Lengkap</label>
+			<div class="col-md-5">
+				<input type="text" name="nama" id="nama" class="form-control" >
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-2">Password</div>
-			<div class="col-md-6">
-				<input type="password" name="pass" id="pass" class="form-control"></input>
+			<label class="col-md-3">Password</label>
+			<div class="col-md-5">
+				<input type="password" name="pass" id="pass" class="form-control" >
+			</div>
+		</div>
+        <div class="row">
+			<label class="col-md-3">Confirm Password</label>
+			<div class="col-md-5">
+				<input type="password" name="passkonfirm" id="passkonfirm" class="form-control" >
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-2">Is Active</div>
-			<div class="col-md-6">
-			<div class="form-check">
-  				<input class="form-check-input" type="radio" name="isactive" id="isactive" value="1">
-  				<label class="form-check-label" for="flexRadioDefault1">
-    				Ative
-  				</label>
-			</div>
-				<div class="form-check">
-  				<input class="form-check-input" type="radio" name="isactive" id="isactive" value="0">
-  				<label class="form-check-label" for="flexRadioDefault2">
-    				Not Active
-  				</label>
-			</div>				
-			</div>
+			<label class="col-md-3">Is Active</label>
+			<div class="col-md-5">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="isactive" id="isactive" value="1">
+                    <label class="form-check-label">
+                        Aktif
+                    </label>
+                    </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="isactive" id="isactive" value="0" >
+                    <label class="form-check-label" >
+                        Not Active
+                    </label>
+                    </div>
+                </div>
 		</div>
-		<div class="row">
-			<div class="col-md-2"></div>
-			<div class="col-md-6">
-				<button type="reset" name="btnreset" value="btnbatal" class="btn btn-xs btn-secondary p-1">
-					<i class="bi bi-x-lg"></i> Batal</a></button>
-				<button type="submit" name="btnsimpan" value="btnsimpan" class="btn btn-xs btn-primary p-1">
-					<i class="bi bi-save"></i> Simpan</a></button>
-			</div>
-		</div>
+        <div class="row pt-3">
+                <label class="col-md-3"></label>
+                <div class="col-md-5">
+                    <button type="button" id="btnsubmit" class="btn btn-primary" data-bs-toggle="modal">Simpan</button>
+                    <a href="home.php?modul=mod_userlogin"><button type="button" class="btn btn-warning">Kembali</button></a>
+                </div>
+            </div>
 	</form>
-</div>
-<?php
-}
-?>
+<?php }else{ ?>
+    <form action="?modul=mod_userlogin&action=save" id="formuser" method="POST">
+        <?php if($proses=="update"){ ?>
+        <div class="row">
+			<label class="col-md-3">username</label>
+			<div class="col-md-5">
+            <input type="hidden" name="proses" value="<?= $proses; ?>">
+            <input type="hidden" name="iduser" value="<?= $upiduser; ?>">
+				<input type="text" name="user" id="user" class="form-control" value="<?= $upuser?>" readonly>
+			</div>
+		</div>
+        <?php } ?>
+		<div class="row">
+			<label class="col-md-3">nama  lengkap</label>
+			<div class="col-md-5">
+				<input type="text" name="nama" id="nama" class="form-control" value="<?= $upnama?>">
+			</div>
+		</div>
+		<div class="row">
+			<label class="col-md-3">password</label>
+			<div class="col-md-5">
+				<input type="password" name="pass" id="pass" class="form-control" value="<?= $uppass?>">
+			</div>
+		</div>
+		<div class="row">
+			<label class="col-md-3">confirm password</label>
+			<div class="col-md-5">
+				<input type="password" name="passkonfirm" id="pass" class="form-control" value="<?= $uppass?>">
+			</div>
+		</div>
+		<div class="row">
+			<label class="col-md-3">is active</label>
+			<div class="col-md-5">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="isactive" id="isactive" value="1" <?=($dt['is_active'] == 1)?"checked" : "";?>>
+                    <label class="form-check-label">
+                        aktif
+                    </label>
+                    </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="isactive" id="isactive" value="0" <?=($dt['is_active'] == 0)?"checked" : "";?>>
+                    <label class="form-check-label" >
+                        tidak aktif
+                    </label>
+                    </div>
+                </div>
+		</div>
+        <div class="row pt-3">
+                <label class="col-md-3"></label>
+                <div class="col-md-5">
+                    <button type="submit" name="btnsubmit" id="btnsubmit" class="btn btn-primary">Simpan</button>
+                    <a href="home.php?modul=mod_userlogin"><button type="button" class="btn btn-warning">Kembali</button></a>
+                </div>
+            </div>
+	</form>
+<?php } ?>
+<!--modal -->
+<div class="modal fade" id="btnkonfirm" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                apakah anda yakin ingin menyimpan?
+            </div>
+            <div class="modal-footer">
+                <button type="button" name="btnbatal" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" name="btnsimpan" id="btnsimpan" class="btn btn-primary">Simpan</button>
+            </div>
+            </div>
+        </div>
+        </div>
+<?php } ?>

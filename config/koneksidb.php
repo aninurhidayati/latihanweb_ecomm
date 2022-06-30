@@ -8,8 +8,6 @@ $koneksidb = mysqli_connect($servername, $user_db, $pass_db, $database);
 if(!$koneksidb){
 	echo "<h3>koneksi gagal!! </h3>";
 	exit;
-}else{
-    "<h3>koneksi berhasil</h3>" ;
 }
 //set database
 mysqli_select_db($koneksidb, $database);

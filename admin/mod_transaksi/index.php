@@ -60,7 +60,11 @@ if (!isset($_GET['action'])) {
         "select no_invoice from tst_penjualan ORDER BY no_invoice DESC LIMIT 0,1"
     );
     $cekkode = mysqli_fetch_array($query_cekkode);
-    $kodeakhir = $cekkode['no_invoice'];
+    if (mysqli_num_rows($query_cekkode) == 0) {
+        $kodeakhir = "INV-";
+    } else {
+        $kodeakhir = $cekkode['no_invoice'];
+    }
     // echo $kodeakhir . "<br>";
     $no_urutakhir = substr($kodeakhir, 8);
     // echo $no_urutakhir . "<br>";
@@ -180,9 +184,52 @@ if (!isset($_GET['action'])) {
     <?php } else { ?>
         <form action="?modul=mod_transaksi&action=save" id="formtransaksi" method="POST" enctype="multipart/form-data">
             <?php
-            $qry = mysqli_query($koneksidb, "select * from tst_penjualan where no_invoice='$kode' LIMIT 0,1");
+            // $qry = mysqli_query($koneksidb, "select * from tst_penjualan where no_invoice='$kode' LIMIT 0,1");
+            $qry = mysqli_query($koneksidb, "SELECT a.*, b.nm_member, c.nmproduk FROM tst_penjualan a INNER JOIN daftarmember b ON a.idmember = b.idmember INNER JOIN mst_produk c ON a.idproduk = c.idproduk WHERE no_invoice='$kode'");
             $dt = mysqli_fetch_array($qry);
             ?>
+            <div class="row pt-3">
+                <label class="col-md-2">Kode Invoice</label>
+                <div class="col-md-5">
+                    <input class="form-control" type="text" id="kodeinvoice" name="kodeinvoice" value="<?= $dt['no_invoice']; ?>" readonly>
+                </div>
+            </div>
+            <div class="row pt-3">
+                <label class="col-md-2">Tanggal Transaksi</label>
+                <div class="col-md-5">
+                    <input class="form-control" type="text" id="tgl_transaksi" name="tgl_transaksi" value="<?= date_format(new DateTime($dt['tgl_transaksi']), 'd-m-Y'); ?>" readonly>
+                </div>
+            </div>
+            <div class="row pt-3">
+                <label class="col-md-2">Nama Produk</label>
+                <div class="col-md-5">
+                    <input class="form-control" type="text" id="nm_produk" name="nm_produk" value="<?= $dt['nmproduk']; ?>" readonly>
+                </div>
+            </div>
+            <div class="row pt-3">
+                <label class="col-md-2">Nama Member</label>
+                <div class="col-md-5">
+                    <input class="form-control" type="text" id="nm_member" name="nm_member" value="<?= $dt['nm_member']; ?>" readonly>
+                </div>
+            </div>
+            <div class="row pt-3">
+                <label class="col-md-2">Qty</label>
+                <div class="col-md-5">
+                    <input class="form-control" type="text" id="qty" name="qty" value="<?= $dt['qty']; ?>" readonly>
+                </div>
+            </div>
+            <div class="row pt-3">
+                <label class="col-md-2">Harga</label>
+                <div class="col-md-5">
+                    <input class="form-control" type="text" id="harga" name="harga" value="<?= $dt['harga']; ?>" readonly>
+                </div>
+            </div>
+            <div class="row pt-3">
+                <label class="col-md-2">Total</label>
+                <div class="col-md-5">
+                    <input class="form-control" type="text" id="total" name="total" value="<?= $dt['total']; ?>" readonly>
+                </div>
+            </div>
             <div class="row pt-3">
                 <label class="col-md-2">Status Bayar</label>
                 <div class="col-md-5">

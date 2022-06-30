@@ -4,6 +4,7 @@
  ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -26,7 +27,7 @@
 					<a href="index.php" class="nav-link">HOME</a>
 				</li>
 				<li class="nav-item">
-					<a href="halamanProduk.php" class="nav-link">PRODUCT</a>
+					<a href="?page=halamanProduk" class="nav-link">PRODUCT</a>
 				</li>
 			</ul>
 
@@ -68,7 +69,7 @@
 		<div class="container pt-4">
 			<div class="row">
 				<div class="col-md-4">
-					<address class="fw-bold mb-0">Ani's Distro :</address>
+					<address class="fw-bold mb-0">ASE's Distro :</address>
 					<p class="mb-0">Jalan Merdeka No.101 , Manyar Surabaya</p>
 					<p>WA : 081-3393-64971</p>
 				</div>
@@ -108,6 +109,7 @@
 						<button type="submit" name="btnlogin" id="btnkeluar" class="btn btn-primary">Login</button>
 					</div>
 				</div>
+				<a href="?page=lupapassword"> Lupa Password?</a>
 			</form>
 		</div>
 	</div>

@@ -42,14 +42,33 @@ if (!isset($_GET['action'])) {
         $qty = $_POST['qty'];
         $harga = $_POST['harga'];
         $total = $_POST['total'];
-        $is_bayar = $_POST['statusbayar'];
-        $is_closed = $_POST['statuspesanan'];
-        if (!empty($_FILES['bukti'])) {
+        // $is_bayar = $_POST['statusbayar'];
+        // $is_closed = $_POST['statuspesanan'];
+        // upload 
+        if ($_FILES['bukti']['name'] == "") {
+            if (isset($_POST['statusbayar'])) {
+                $aktif = 1;
+            } else {
+                $aktif = 0;
+            }
+            if (isset($_POST['statuspesanan'])) {
+                $aktif1 = 1;
+            } else {
+                $aktif1 = 0;
+            }
+            $is_bayar = $aktif;
+            $is_closed = $aktif1;
+            $tgl = date('Y-m-d H:i:s');
+            $pengurangan = ($stock - $qty);
+            mysqli_query($koneksidb, "insert into tst_penjualan (no_invoice,idproduk,idmember,qty,harga,total,tgl_transaksi,is_bayar,is_closed) VALUES ('$no_invoice','$produk','$member','$qty','$harga','$total','$tgl','$is_bayar','$is_closed')") or die(mysqli_error($koneksidb));
+            mysqli_query($koneksidb, "UPDATE mst_produk SET stock='$pengurangan' WHERE idproduk = '$produk'");
+            header("Location: home.php?modul=mod_transaksi");
+        } else {
             $file = $_FILES['bukti'];
             $target_dir = "../assets/img/";
             $target_file =  $target_dir . basename($file['name']);
             $type_file = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-            echo $type_file . "<br/>";
+            // echo $type_file."<br/>";
             $is_upload = 1;
             /* cek batas limit file maks.3MB*/
             if ($file['size'] > 3000000) {
@@ -59,52 +78,60 @@ if (!isset($_GET['action'])) {
             /**cek tipe file */
             if ($type_file != "jpg" && $type_file != "png") {
                 $is_upload = 0;
-                pesan("Tipe file bukan file gambar!!");
+                pesan("hanya tipe file jpg/png yang diperbolehkan!!");
             }
+
             $namafile = "";
             /**proses upload */
             if ($is_upload == 1) {
                 if (move_uploaded_file($file['tmp_name'], $target_file)) {
                     $namafile = $file['name'];
-                } else {
+                    if (isset($_POST['statusbayar'])) {
+                        $aktif = 1;
+                    } else {
+                        $aktif = 0;
+                    }
+                    if (isset($_POST['statuspesanan'])) {
+                        $aktif1 = 1;
+                    } else {
+                        $aktif1 = 0;
+                    }
+                    $is_bayar = $aktif;
+                    $is_closed = $aktif1;
+                    $tgl = date('Y-m-d H:i:s');
+                    $pengurangan = ($stock - $qty);
+                    mysqli_query($koneksidb, "insert into tst_penjualan (no_invoice,idproduk,idmember,qty,harga,total,tgl_transaksi,buktipembayaran,is_bayar,is_closed) VALUES ('$no_invoice','$produk','$member','$qty','$harga','$total','$tgl','$namafile','$is_bayar','$is_closed')") or die(mysqli_error($koneksidb));
+                    mysqli_query($koneksidb, "UPDATE mst_produk SET stock='$pengurangan' WHERE idproduk = '$produk'");
+                    header("Location: home.php?modul=mod_transaksi");
+                } else if ($is_upload == 0) {
                     pesan("GAGAL upload file gambar!!");
                 }
             }
-        } 
-        else {
-            if ($_GET['action'] == "update") {
-                $namafile = $_POST['file_uploaded'];
-            } else {
-                $namafile = "";
-            }
         }
-        if (isset($_POST['statusbayar'])) {
-            $aktif = 1;
-        } else {
-            $aktif = 0;
-        }
-        if (isset($_POST['statuspesanan'])) {
-            $aktif1 = 1;
-        } else {
-            $aktif1 = 0;
-        }
-        $is_bayar = $aktif;
-        $is_closed = $aktif1;
-        $tgl = date('Y-m-d H:i:s');
-        $pengurangan = ($stock - $qty);
-        mysqli_query($koneksidb, "insert into tst_penjualan (no_invoice,idproduk,idmember,qty,harga,total,tgl_transaksi,buktipembayaran,is_bayar,is_closed) VALUES ('$no_invoice','$produk','$member','$qty','$harga','$total','$tgl','$namafile','$is_bayar','$is_closed')") or die(mysqli_error($koneksidb));
-        mysqli_query($koneksidb, "UPDATE mst_produk SET stock='$pengurangan' WHERE idproduk = '$produk'");
-        echo '<meta http-equiv="refresh" content="0; url=' . ADMIN_URL . '?modul=mod_transaksi">';
-        header("Location: home.php?modul=mod_transaksi");
     } else if ($proses == "update") {
         if ($_FILES['buktipembayaran']['name'] == "") {
+            if (isset($_POST['statusbayar'])) {
+                $aktif = 1;
+            } else {
+                $aktif = 0;
+            }
+            if (isset($_POST['statuspesanan'])) {
+                $aktif1 = 1;
+            } else {
+                $aktif1 = 0;
+            }
+            $is_bayar = $aktif;
+            $is_closed = $aktif1;
+            $id = $_POST['no_invoice'];
             $namafile = $_POST['gambarlama'];
+            mysqli_query($koneksidb, "UPDATE tst_penjualan SET is_bayar='$is_bayar',is_closed='$is_closed',buktipembayaran='$namafile' WHERE no_invoice = '$id' ") or die(mysqli_error($koneksidb));
+            header("Location: home.php?modul=mod_transaksi");
         } else {
             $file = $_FILES['buktipembayaran'];
             $target_dir = "../assets/img/";
             $target_file =  $target_dir . basename($file['name']);
             $type_file = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-            echo $type_file . "<br/>";
+            // echo $type_file . "<br/>";
             $is_upload = 1;
             /* cek batas limit file maks.3MB*/
             if ($file['size'] > 3000000) {
@@ -114,39 +141,39 @@ if (!isset($_GET['action'])) {
             /**cek tipe file */
             if ($type_file != "jpg" && $type_file != "png") {
                 $is_upload = 0;
-                pesan("Tipe file bukan file gambar!!");
+                pesan("hanya tipe file jpg/png yang diperbolehkan!!");
             }
             $namafile = "";
             /**proses upload */
             if ($is_upload == 1) {
                 if (move_uploaded_file($file['tmp_name'], $target_file)) {
                     $namafile = $file['name'];
+                    if (isset($_POST['statusbayar'])) {
+                        $aktif = 1;
+                    } else {
+                        $aktif = 0;
+                    }
+                    if (isset($_POST['statuspesanan'])) {
+                        $aktif1 = 1;
+                    } else {
+                        $aktif1 = 0;
+                    }
+                    $is_bayar = $aktif;
+                    $is_closed = $aktif1;
+                    $id = $_POST['no_invoice'];
+                    if ($namafile == $_POST['gambarlama']) {
+                        $edit = mysqli_query($koneksidb, "UPDATE tst_penjualan SET is_bayar='$is_bayar',is_closed='$is_closed',buktipembayaran='$namafile' WHERE no_invoice = '$id' ") or die(mysqli_error($koneksidb));
+                    } else {
+                        $old = $_POST['gambarlama'];
+                        $edit = mysqli_query($koneksidb, "UPDATE tst_penjualan SET is_bayar='$is_bayar',is_closed='$is_closed',buktipembayaran='$namafile' WHERE no_invoice = '$id' ") or die(mysqli_error($koneksidb));
+                        unlink("../assets/img/$old");
+                    }
+                    echo '<meta http-equiv="refresh" content="0; url=' . ADMIN_URL . '?modul=mod_transaksi">';
                 } else {
                     pesan("GAGAL upload file gambar!!");
                 }
             }
         }
-        if (isset($_POST['statusbayar'])) {
-            $aktif = 1;
-        } else {
-            $aktif = 0;
-        }
-        if (isset($_POST['statuspesanan'])) {
-            $aktif1 = 1;
-        } else {
-            $aktif1 = 0;
-        }
-        $is_bayar = $aktif;
-        $is_closed = $aktif1;
-        $id = $_POST['no_invoice'];
-        if ($namafile == $_POST['gambarlama']) {
-            $edit = mysqli_query($koneksidb, "UPDATE tst_penjualan SET is_bayar='$is_bayar',is_closed='$is_closed',buktipembayaran='$namafile' WHERE no_invoice = '$id' ") or die(mysqli_error($koneksidb));
-        } else {
-            $old = $_POST['gambarlama'];
-            $edit = mysqli_query($koneksidb, "UPDATE tst_penjualan SET is_bayar='$is_bayar',is_closed='$is_closed',buktipembayaran='$namafile' WHERE no_invoice = '$id' ") or die(mysqli_error($koneksidb));
-            unlink("../assets/img/$old");
-        }
-        echo '<meta http-equiv="refresh" content="0; url=' . ADMIN_URL . '?modul=mod_transaksi">';
     }
 }
 
@@ -155,5 +182,5 @@ function pesan($alert)
     echo '<script language="javascript">';
     echo 'alert("' . $alert . '")';  //not showing an alert box.
     echo '</script>';
-    //echo '<meta http-equiv="refresh" content="0; url=http://localhost/latihan_webphp/admin/home.php?modul=mod_upload">';	
+    echo '<meta http-equiv="refresh" content="0; url=http://localhost/latihanweb_ecomm/admin/home.php?modul=mod_transaksi">';
 }

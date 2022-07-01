@@ -2,26 +2,19 @@
 	require_once("config/koneksidb.php");
 	require_once("config/config.php");
  ?>
- <html lang="en">
-<head>
-	<meta charset="UTF-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>ASE Distro</title>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-		integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
-	</script>
-	<link rel="stylesheet" href="assets/styles2.css" />
-</head>
 <body>
 	<!-- konten -->
-	<section id="konten" style="background-color:wheat;">
+	<?php
+	function rupiah($angka){
+	$hasil_rupiah = "Rp." . number_format($angka,2,',', '.');
+	return $hasil_rupiah;
+     }
+	?>
+	<section id="konten">
 		<div class="row pt-2">
-			<div class="col-md-4"></div>
-			<div class="col-md-4"> 
-			<h2 class="text-center mb-2 " style="color:orange ;"> <b>Produk terbaik</b> </h2>
+			<div class="col-md-2"></div>
+			<div class="col-md-6"> 
+			<b><marquee width="100%" behavior="" scrollamount="10" direction="" style="background-color:white;color:orange;"> <h1>Produk-Produk Terbaik bikinan Kelas ASE Diskon 100% </h1>  </marquee></b>
 			</div>
 			<div class="col-md-3">
 			<form method="get" class="d-flex" role="search">
@@ -33,7 +26,6 @@
 		<div class="row">
 			<div class="col-md-3"></div>
 			<div class="col-md-6"> 
-			<b><marquee behavior="" direction="" style="background-color:white;color:orange;"> Produk-Produk Terbaik bikinan Kelas ASE Diskon 100% </marquee></b>
 			</div>
 			<div class="col-md-3"></div>		
 		</div>
@@ -50,7 +42,7 @@
             <div class="subkategori" id=""> 
             <ul>
                 <li> 
-                	<a href=""><?php echo $row['nmkategori'];?></a>
+                	<a href="?page=kategoriproduk&id=<?=$row['idkategori'];?>"><?php echo $row['nmkategori'];?></a>
                 </li>
             </ul>
 			</div>
@@ -62,7 +54,7 @@
 			<div class="row">
 				<?php
 				
-                    $qlist_produk = mysqli_query($koneksidb, "SELECT a.nmproduk, a.harga, a.gambar 
+                    $qlist_produk = mysqli_query($koneksidb, "SELECT a.idproduk,a.nmproduk, a.harga, a.gambar 
 					FROM mst_produk a INNER JOIN tst_penjualan b ON b.idproduk=a.idproduk GROUP BY a.nmproduk ORDER BY b.qty DESC LIMIT 6;");
 					if(isset($_GET['cari'])){
 						$qlist_produk= mysqli_query($koneksidb, "SELECT a.nmproduk, a.harga, a.gambar 
@@ -75,11 +67,12 @@
 						<img src="assets/img/<?= $lp['gambar'];?>" class="card-img-top" alt="..." />
 						<div class="card-body text-center bgcardbody">
 							<h5 class="card-title"><?= $lp['nmproduk'];?></h5>
-							<h6 class="harga"><?= "Rp.".$lp['harga'];?></h6>
+							<h6 class="harga"><?= rupiah($lp['harga']); ?></h6>
+							
 						</div>
 						<ul class="list-group list-group-flush">
 							<li class="list-group-item btndetail">
-								<a href="?page=detailprodukphp?id=<?= $row['id_produk']; ?>" target="_blank" class="btn text-white">Detail</a>
+								<a href="?page=detailproduk&id=<?= $lp['idproduk'];?>" target="_blank" class="btn text-white">Detail</a>
 							</li>
 						</ul>
 					</div>

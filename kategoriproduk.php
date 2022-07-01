@@ -1,9 +1,11 @@
+<?php
+?>
 <section id="header">
 		<div class="container ps-0 pt-2">
 			<div class="row">
                 <form action="" method="post">
                     <div class="input-group mb-3">
-                        <input type="text" name="txt_cari" placeholder="Cari Produk Disini" class="form-control border-secondary" aria-label="Recipient's username" aria-describedby="button-addon2">
+                        <input type="text" name="txt_cari" placeholder="Cari Produk Disini" class="form-control border-secondary" aria-label="Recipient's username" aria-describedby="button-addon2" autocomplete="0ff">
                         <button type="submit" name="cari" class="btn btn-outline-warning text-secondary" id="button-addon2">Search</button>
                     </div>
                 </form>
@@ -17,6 +19,7 @@
 			<div class="row">
                 <!-- judul kategori -->
                 <?php
+                include "functionCtrl.php";
                     $idkey = $_GET['id'];
                     $qlist_produk = mysqli_query($koneksidb, "SELECT kp.nmkategori
                         FROM kategoriproduk kp WHERE kp.idkategori = $idkey;");
@@ -27,13 +30,14 @@
                 <!-- tampil produk -->
                 <?php
                     $idkey = $_GET['id'];
+                    // pencarian
                     if(isset($_POST['cari'])){
                         $cproduk = " AND nmproduk LIKE '%".$_POST["txt_cari"]."%' ";
                     }
                     else{
                         $cproduk = "";
                     }
-                    $qlist_produk = mysqli_query($koneksidb, "SELECT mp.nmproduk, mp.harga, mp.gambar, kp.nmkategori
+                    $qlist_produk = mysqli_query($koneksidb, "SELECT mp.nmproduk, mp.harga, mp.gambar, kp.nmkategori, mp.idproduk
                         FROM mst_produk mp INNER JOIN kategoriproduk kp ON mp.idkategori=kp.idkategori WHERE kp.idkategori = $idkey
                         $cproduk 
                         ORDER BY mp.idproduk DESC LIMIT 6;");
@@ -44,11 +48,11 @@
 						<img src="assets/img/<?= $lp['gambar'];?>" class="card-img-top" alt="..." />
 						<div class="card-body text-center bgcardbody">
 							<h5 class="card-title"><?= $lp['nmproduk'];?></h5>
-							<h6 class="harga"><?= 'Rp.'.$lp['harga'];?></h6>
+							<h6 class="harga"><?= "Rp ".fnumber($lp['harga']);?></h6>
 						</div>
 						<ul class="list-group list-group-flush">
 							<li class="list-group-item btndetail">
-								<a href="?page=detailproduk" target="_blank" class="text-white">Detail</a>
+								<a href="?page=detailproduk&id=<?= $lp['idproduk'];?>" target="_blank" class="text-white">Detail</a>
 							</li>
 						</ul>
 					</div>

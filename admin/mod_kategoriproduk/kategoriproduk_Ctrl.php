@@ -1,5 +1,4 @@
 <?php
-
 if (isset($_GET['action']) && ($_GET['action'] == "add")) {
     $judul = "Input your data";
 } else if (isset($_GET['action']) && ($_GET['action'] == "edit")) {
@@ -17,5 +16,4 @@ if (isset($_GET['action']) && ($_GET['action'] == "add")) {
     $id = $_GET['id'];
     mysqli_query($koneksidb, "DELETE FROM kategoriproduk WHERE idkategori='$id'");
     header("Location: home.php?modul=mod_kategoriproduk");
-    
 }

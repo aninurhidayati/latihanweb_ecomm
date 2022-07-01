@@ -3,6 +3,7 @@ security_login();
 
 if(!isset($_GET['action'])){
 	$data_member = mysqli_query($koneksidb,"select * from daftarmember ");
+
 	//untuk contoh generate kode
 // 	$query_cekkode = mysqli_query($koneksidb,
 // 			"select kode_menu from mst_menu ORDER BY kode_menu DESC LIMIT 0,1");
@@ -60,6 +61,5 @@ if(!isset($_GET['action'])){
 // 		mysqli_query($koneksidb,"update mst_menu set nmmenu='$nmmenu' where idmenu = $idmenu ")or die(mysqli_error($koneksidb));
 // 		echo '<meta http-equiv="refresh" content="0; url='.ADMIN_URL.'?modul=mod_menu">';
 // 	}
-	
 }
 ?>

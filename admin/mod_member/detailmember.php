@@ -5,7 +5,8 @@ if (isset($_GET['profile'])) {
 	<?php
 	    while ($d = mysqli_fetch_array($data_member)) {
             if(isset($_GET['id']) && ($_GET['id']==$d['idmember'])){
-	?>
+                // $tgl=date_create($d['tgl_lhr']);
+    ?>
     
             <div class="container" >
                 <div class="row mb-2" style="font-family: 'Courier New', Courier, monospace; font-weight: 400;">
@@ -18,7 +19,7 @@ if (isset($_GET['profile'])) {
                             <li class="list-group-item">Nama : <?=$d['nm_member'];?></li>
                             <li class="list-group-item">Email :<?=$d['email'];?></li>
                             <li class="list-group-item">Password : <?=$d['password'];?></li>
-                            <li class="list-group-item">Tanggal daftar : <?=$d['tgl_daftar'];?></li>
+                            <li class="list-group-item">Tanggal daftar : <?=date_format(new DateTime($d['tgl_daftar']), 'd-m-Y');?></li>
                             <li class="list-group-item">Tanggal Lahir : <?=$d['tgl_lhr'];?></li>
                             <li class="list-group-item">No.Telp : <?=$d['no_telp'];?></li>
                             <li class="list-group-item">Alamat : <?=$d['alamat'];?></li>
@@ -52,7 +53,7 @@ if (isset($_GET['profile'])) {
                                 <tr>
                                     <td><?= $hst['tgl_transaksi'];?></td>
                                     <td><?= $hst['no_invoice'];?></td>
-                                    <td><?= $hst['total'];?></td>
+                                    <td>Rp.<?= number_format($hst['total'],2,',','.');?></td>
                                     <td><?=($hst['is_bayar'] == 1)?"lunas" : "belum lunas";?></td>
                                     <td><?=($hst['is_closed'] == 1)?"selesai" : "proses";?></td>
                                 </tr>

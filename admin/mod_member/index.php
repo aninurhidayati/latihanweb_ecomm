@@ -28,7 +28,7 @@ include_once("detailmember.php");
                 <td><a href="?modul=mod_member&profile=detailmember.php&id=<?=$d['idmember'];?>"><?=$d['nm_member'];?></a></td>
                 <td><?=$d['email'];?></td>
                 <td><?=$d['password'];?></td>
-                <td><?=$d['tgl_daftar'];?></td>
+                <td><?=date_format(new DateTime($d['tgl_daftar']), 'd-m-Y');?></td>
                 <td><?=$d['tgl_lhr'];?></td>
                 <td><?=$d['no_telp'];?></td>
                 <td><?=$d['alamat'];?></td>

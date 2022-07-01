@@ -42,7 +42,7 @@ if (!isset($_GET['action'])) {
     <h3 class="mt-1"><?php echo $judul; ?></h3>
     <div class="row mt-4">
         <div class="col">
-         <form action="mod_kategoriproduk/produk_Ctrl.php?modul=mod_produk&action=save" id="kategori_produk" method="POST">
+         <form action="?modul=mod_produk&action=save" id="formproduk" method="POST" enctype="multipart/form-data">
             <div class="mb-3 row">
                 <label for="nmproduk_ins" class="col-sm-2 col-form-label">Nama Produk</label>
              <div class="col-sm-6">
@@ -50,9 +50,9 @@ if (!isset($_GET['action'])) {
              </div>
             </div>
             <div class="mb-3 row">
-                <label for="img_upload" class="col-sm-2 col-form-label">Gambar</label>
+                <label for="img_add" class="col-sm-2 col-form-label">Gambar</label>
                 <div class="col-sm-6">
-                    <input type="file" class="form-control" id="img_upload" name="img_upload">
+                    <input type="file" class="form-control" id="img_add" name="img_add">
                 </div>
             </div>
             <div class="mb-3 row">
@@ -95,7 +95,7 @@ if (!isset($_GET['action'])) {
             <div class="mb-3 row">
                 <label for="deskripsi" class="col-sm-2 col-form-label">Isi</label>
                 <div class="col-sm-6">
-                    <textarea class="form-control" id="deskripsi" cols="30" rows="10" name="deskripsi"></textarea>
+                    <textarea name="deskripsi" id="deskripsi" cols="30" rows="10"></textarea>
                 </div>
             </div>
             <div class="mb-3 row">
@@ -107,15 +107,35 @@ if (!isset($_GET['action'])) {
             <div class="row">
                 <div class="col-md-2"></div>
                 <div class="col-md-10">
-                    <a href="?modul=mod_kategoriproduk" type="cancel" class="btn btn-secondary"><i class="bi bi-box-arrow-left"></i> Kembali</a>
+                    <a href="?modul=mod_produk" type="cancel" class="btn btn-secondary"><i class="bi bi-box-arrow-left"></i> Kembali</a>
                     <button type="cancel" class="btn btn-danger"><i class="bi bi-x-square"></i> Reset</button>
-                    <button type="button" id="btnsimpan" data-bs-toggle="modal" class="btn btn-primary"><i class="bi bi-save"></i> Submit</button>
+                    <button type="submit" id="btnsave" data-bs-toggle="modal" class="btn btn-primary"><i class="bi bi-save"></i> Submit</button>
                 </div>
             </div>
          </form>
         </div>
     </div>
 </div>
+
+<!-- modal -->
+
+<div class="modal fade" tabindex="-1" id="ModalKonfirmasi1">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Konfirmasi</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<p>Apakah anda yakin simpan data ini?</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+						<button type="button" id="btnyess" class="btn btn-primary">Ya</button>
+					</div>
+				</div>
+			</div>
+		</div>
 <?php 
  }
 ?>

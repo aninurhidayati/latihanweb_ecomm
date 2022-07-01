@@ -11,29 +11,17 @@ if (isset($_GET['action']) && ($_GET['action'] == "add")) {
     $stock = $_POST['stock_ins'];
     $kondisi = $_POST['kondisi_ins'];
     $berat = $_POST['berat_ins'];
-    $file = $_FILES['img_upload'];
-    if ($proses == "insert") {
-        $no_invoice = $_POST['kode'];
-        $member = $_POST['member'];
-        $produk = $_POST['produk'];
-        $stock = $_POST['stock'];
-        $qty = $_POST['qty'];
-        $harga = $_POST['harga'];
-        $total = $_POST['total'];
-        $is_bayar = $_POST['statusbayar'];
-        $is_closed = $_POST['statuspesanan'];
-        if (!empty($_FILES['bukti'])) {
-            $file = $_FILES['bukti'];
-            $target_dir = "../assets/img/";
-            $target_file =  $target_dir . basename($file['name']);
-            $type_file = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-            echo $type_file . "<br/>";
-            $is_upload = 1;
-            /* cek batas limit file maks.3MB*/
-            if ($file['size'] > 3000000) {
-                $is_upload = 0;
-                pesan("File lebih dari 3MB!!");
-            }
+    if (!empty($_FILES['img_add'])) {
+        $file = $_FILES['img_add'];
+        $target_dir = "../assets/img/";
+        $target_file =  $target_dir . basename($file['name']);
+        $type_file = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        $is_upload = 1;
+        /* cek batas limit file maks.5MB*/
+        if ($file['size'] > 5000000) {
+            $is_upload = 0;
+            pesan("File lebih dari 5MB!!");
+        }
             /**cek tipe file */
             if ($type_file != "jpg" && $type_file != "png") {
                 $is_upload = 0;
@@ -44,18 +32,16 @@ if (isset($_GET['action']) && ($_GET['action'] == "add")) {
             if ($is_upload == 1) {
                 if (move_uploaded_file($file['tmp_name'], $target_file)) {
                     $namafile = $file['name'];
-                } else {
+                    mysqli_query($koneksidb, "INSERT INTO mst_produk (nmproduk,idkategori,harga,deskripsi,stock,kondisi,berat,gambar) VALUES ('$nmproduk',$id_kategori,$harga,'$deskripsi',$stock,'$kondisi','$berat','$img_add')") or die(mysqli_error($koneksidb));
+                    header("Location: home.php?modul=mod_produk");
+                } else if($is_upload == 0){
                     pesan("GAGAL upload file gambar!!");
                 }
             }
-        } 
-        else {
-            if ($_GET['action'] == "update") {
-                $namafile = $_POST['file_uploaded'];
-            } else {
-                $namafile = "";
-            }
         }
-    }
+    else if($_FILES['bukti']['name'] == ""){
+        mysqli_query($koneksidb, "INSERT INTO mst_produk (nmproduk,idkategori,harga,deskripsi,stock,kondisi,berat) VALUES ('$nmproduk',$id_kategori,$harga,'$deskripsi',$stock,'$kondisi','$berat',)") or die(mysqli_error($koneksidb));
+        header("Location: home.php?modul=mod_produk");
+    }             
 }
 

@@ -1,11 +1,4 @@
 <?php
-//  if (isset($_GET['action']) && ($_GET['action'] == "update" || $_GET['action'] == "save")) {
-//     require_once "../../config/koneksidb.php";
-//     require_once "../../config/config.php";
-// } else {
-//     require_once "../config/koneksidb.php";
-//     require_once "../config/config.php";
-// }
 
 if (isset($_GET['action']) && ($_GET['action'] == "add")) {
     $judul = "Input your data";
@@ -22,8 +15,7 @@ if (isset($_GET['action']) && ($_GET['action'] == "add")) {
     header("Location: home.php?modul=mod_kategoriproduk"); 
 } else if (isset($_GET['action']) && ($_GET['action'] == "delete")) {
     $id = $_GET['id'];
-
     mysqli_query($koneksidb, "DELETE FROM kategoriproduk WHERE idkategori='$id'");
-
     header("Location: home.php?modul=mod_kategoriproduk");
+    
 }

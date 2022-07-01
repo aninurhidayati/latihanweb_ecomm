@@ -74,7 +74,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
-						<button type="button" id="btnyes" class="btn btn-primary">Ya</button>
+						<button type="submit" id="btnyes" class="btn btn-primary">Ya</button>
 					</div>
 				</div>
 			</div>
@@ -91,7 +91,7 @@
     <h3 class="mt-1"><?= $judul1; ?></h3>
     <div class="row mt-4">
         <div class="col">
-            <form action="mod_kategoriproduk/kategoriproduk_Ctrl.php?modul=mod_kategoriproduk&action=update" method="POST">
+            <form action="?modul=mod_kategoriproduk&action=update" method="POST">
                 <div class="mb-3 row">
                  <label for="namakategori" class="col-sm-2 col-form-label">Nama Kategori</label>
                  <div class="col-lg-6">

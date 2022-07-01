@@ -15,7 +15,6 @@ if (isset($_GET['act']) && ($_GET['act']== "edit")){
         $idrequest= $_POST['id_request'];
         $username = $_POST['username'];
         $pass = $_POST['password_baru'];
-       // $datein = date('Y-m-d');
         $quser = mysqli_query($koneksidb,"SELECT username FROM mst_userlogin WHERE username='".$_POST['username']."'");
 		$row = mysqli_fetch_array($quser);
 			if($username != $row['username']){

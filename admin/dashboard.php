@@ -16,7 +16,7 @@
             while($row = mysqli_fetch_array($qry_listmenu)){
             ?>
             <tr>
-                <td><?php echo $row['date_request'];?></td>
+                <td><?php echo date('d/m/Y',strtotime($row['date_request']));?></td>
                 <td><?= $row['username']; ?></td>
                 <td><?php echo $row['password_baru']; ?></td>
                 <td>

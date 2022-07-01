@@ -146,7 +146,7 @@ if (!isset($_GET['action'])) {
             <div class="row pt-3">
                 <label class="col-md-2">Qty</label>
                 <div class="col-md-5">
-                    <input type="text" name="qty" id="qty" class="form-control" required>
+                    <input type="number" name="qty" id="qty" class="form-control" min="1" required>
                 </div>
             </div>
             <div class="row pt-3">

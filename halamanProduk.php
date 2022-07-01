@@ -106,6 +106,10 @@
 							data-bs-dismiss="modal">Batal</button>
 						<button type="submit" name="btnlogin" id="btnkeluar" class="btn btn-primary">Login</button>
 					</div>
+					<div class="row mb-3">
+						<div class="col-md-5 text-end">
+							<a href="?page=lupapassword" class="btn btn-primary">Lupa Password?</a>
+					</div>
 				</div>
 			</form>
 		</div>

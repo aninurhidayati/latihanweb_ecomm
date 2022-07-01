@@ -75,14 +75,14 @@
 									</div>
 								</div>
 								<div class="row pb-1">
-									<label for="tgllhr" class="col-md-3">Tgl_lhr</label>
+									<label for="tgllhr" class="col-md-3">Tanggal lahir</label>
 									<div class="col-md-6">
 										<input type="date" name="tgllhr" id="tgllhr" class="form-control" />
 										<input type="hidden" name="tgldaftar" id="tgldaftar" class="form-control" />
 									</div>
 								</div>
 								<div class="row pb-1">
-									<label for="tgllhr" class="col-md-3">no_telp</label>
+									<label for="notelp" class="col-md-3">no.telepon</label>
 									<div class="col-md-6">
 										<input type="text" name="notelp" id="notelp" class="form-control" />
 									</div>

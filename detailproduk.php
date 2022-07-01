@@ -1,5 +1,8 @@
 <?php 
-
+function rupiah($angka){
+	$hasil_rupiah = "Rp." . number_format($angka,2,',', '.');
+	return $hasil_rupiah;
+}
 ?>
 <div class="container pb-5">
 	<div class="row">
@@ -23,11 +26,12 @@
 					<div class="card">
 						<div class="card-body subkategori p-2">
 							<h4><?= $p['nmproduk'];?></h4>
-							<h5 class="harga">Rp. 100,000</h5>
+							<h5 class="harga">Harga : <?= rupiah($p['harga']); ?></h5>
 							<p style="color: black; font-family: Arial, Helvetica, sans-serif; font-size: 14px">
-								Kondisi : Baru <br />
-								Berat : 450Gram <br />
-								Ukuran : Allsize <br />
+								Kondisi : <?= $p['kondisi'];?> <br />
+								Berat : <?= $p['berat'];?> <br />
+								Stok : <?= $p['stock'];?> <br />
+								Deskripsi : <?= $p['deskripsi'];?> <br />
 							</p>
 						</div>
 						<ul class="list-group list-group-flush">

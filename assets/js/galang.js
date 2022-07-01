@@ -9,15 +9,17 @@ if (document.getElementById("formtransaksi")) {
     $("#stock").val(stock);
   });
   //hitung total
-  $("#qty").on('keyup', function () {
+  $("#qty").on('change', function () {
     let qty = $(this).val();
     let stock = $('#produk').find(":selected").data("stock");
     if (qty > stock) {
       $("#total").val("Tidak boleh melebihi stock");
+      $("#btnsubmit").prop('disabled', true);
     } else {
       let harga = $("#harga").val();
       let total = harga * qty;
       $("#total").val(total);
+      $("#btnsubmit").prop('disabled', false);
     }
     // console.log(qty + stock + ":" + harga);
   });

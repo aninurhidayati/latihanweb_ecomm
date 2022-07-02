@@ -1,3 +1,4 @@
+//kategori produk
 $("#txtkonfirm").click(function () {
   let user = $("#txtnnama").val();
   let pass_baru = $("#txtnpass").val();
@@ -8,5 +9,14 @@ $("#txtkonfirm").click(function () {
     alert("password baru wajib diisi");
   } else {
     $("#konfirmasi").modal("show");
+  }
+});
+// admin hak akses
+$("#txtsimpan").click(function () {
+  let ckmenu = $("input[type='checkbox']:checked").val();
+  if (ckmenu.length == "") {
+    alert("Centang pilihan menu terlebih dahulu");
+  } else {
+    $("#konfirmasi1").modal("show");
   }
 });

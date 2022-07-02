@@ -1,9 +1,9 @@
 <?php
 include 'produk_Ctrl.php';
-if (!isset($_GET['action'])) {
+if (!isset($_GET['act'])) {
 ?>
  <div class="container-lg mt-1 ">
-<a href="?modul=mod_produk&action=add" class="btn btn-primary mb-2 sticky-top">Tambah Data</a>
+<a href="?modul=mod_produk&act=add" class="btn btn-primary mb-2 sticky-top">Tambah Data</a>
     <table class="table table-striped table-primary table-bordered border-info">
         <tr>
             <th>Nama Kategori</th>
@@ -12,10 +12,10 @@ if (!isset($_GET['action'])) {
             <th>stock</th>
             <th>action</th>
         </tr>
-            <?php
-            $data = mysqli_query($koneksidb, "SELECT kp.nmkategori, p.nmproduk, p.stock, p.harga FROM kategoriproduk kp INNER JOIN mst_produk p ON 
+        <?php
+            $listproduk = mysqli_query($koneksidb, "SELECT kp.nmkategori, p.nmproduk, p.stock, p.harga FROM kategoriproduk kp INNER JOIN mst_produk p ON 
             kp.idkategori = p.idkategori");
-            foreach ($data as $d) :
+            foreach ($listproduk as $d) :
             ?>
                 <tr>
                     <td><?= $d['nmkategori'] ?></td>
@@ -23,8 +23,8 @@ if (!isset($_GET['action'])) {
                     <td><?= $d['harga'] ?></td>
                     <td><?= $d['stock'] ?></td>
                     <td>
-                        <a href="?modul=mod_kategoriproduk&action=edit&id=<?= $d["idkategori"]; ?>" class="btn btn-xs btn-primary"><i class="bi bi-pencil-square"></i> Edit</a>
-                        <a href="?modul=mod_kategoriproduk&action=delete&id=<?= $d["idkategori"]; ?>" class="btn btn-xs btn-danger"><i class="bi bi-trash"></i> Delete</a>
+                        <a href="?modul=mod_produk&act=edit&id=<?= $d["idkategori"]; ?>" class="btn btn-xs btn-primary"><i class="bi bi-pencil-square"></i> Edit</a>
+                        <a href="?modul=mod_produk&act=delete&id=<?= $d["idkategori"]; ?>" class="btn btn-xs btn-danger"><i class="bi bi-trash"></i> Delete</a>
                     </td>
                 </tr>
             <?php
@@ -33,16 +33,17 @@ if (!isset($_GET['action'])) {
         </table>
 </div>
 <?php
- } else if (isset($_GET['action']) && ($_GET['action'] == "add")) {
+ } else if (isset($_GET['act']) && ($_GET['act'] == "add" || $_GET['act'] == "edit")) {
 ?>
 <?php 
  $dt_kategoriproduk = mysqli_query($koneksidb, "select * from kategoriproduk");
+ if ($process == "insert"){
 ?>
 <div class="container-lg mt-1">
     <h3 class="mt-1"><?php echo $judul; ?></h3>
     <div class="row mt-4">
         <div class="col">
-         <form action="?modul=mod_produk&action=save" id="formproduk" method="POST" enctype="multipart/form-data">
+         <form action="?modul=mod_produk&act=save" id="formproduk" method="POST" enctype="multipart/form-data">
             <div class="mb-3 row">
                 <label for="nmproduk_ins" class="col-sm-2 col-form-label">Nama Produk</label>
              <div class="col-sm-6">
@@ -109,33 +110,29 @@ if (!isset($_GET['action'])) {
                 <div class="col-md-10">
                     <a href="?modul=mod_produk" type="cancel" class="btn btn-secondary"><i class="bi bi-box-arrow-left"></i> Kembali</a>
                     <button type="cancel" class="btn btn-danger"><i class="bi bi-x-square"></i> Reset</button>
-                    <button type="submit" id="btnsave" data-bs-toggle="modal" class="btn btn-primary"><i class="bi bi-save"></i> Submit</button>
+                    <button type="submit" id="tblsubmit" data-bs-toggle="modal" class="btn btn-primary"><i class="bi bi-save"></i> Submit</button>
                 </div>
             </div>
          </form>
         </div>
     </div>
 </div>
-
-<!-- modal -->
-
-<div class="modal fade" tabindex="-1" id="ModalKonfirmasi1">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title">Konfirmasi</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						<p>Apakah anda yakin simpan data ini?</p>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
-						<button type="button" id="btnyess" class="btn btn-primary">Ya</button>
-					</div>
-				</div>
-			</div>
-		</div>
 <?php 
- }
+ } //else {
+?>
+<div>
+    <div class="container-lg mt-1">
+        <!-- <h3 class="mt-1"><?php echo $judul1; ?></h3> -->
+        <div class="row mt-4">
+            <form action="?modul=mod_produk&act=save" id="formproduk" method="POST" enctype="multipart/form-data">
+
+            </form>
+        </div>
+    </div>
+</div>
+<?php
+ //}
+?>
+<?php 
+ } 
 ?>

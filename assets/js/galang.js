@@ -9,7 +9,7 @@ if (document.getElementById("formtransaksi")) {
     $("#stock").val(stock);
   });
   //hitung total
-  $("#qty").on('change', function () {
+  $("#qty").on('keyup', function () {
     let qty = $(this).val();
     let stock = $('#produk').find(":selected").data("stock");
     if (qty > stock) {

@@ -62,6 +62,7 @@
          </form>
         </div>
     </div>
+    <!-- modal -->
         <div class="modal fade" tabindex="-1" id="ModalKonfirmasi">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -91,7 +92,7 @@
     <h3 class="mt-1"><?= $judul1; ?></h3>
     <div class="row mt-4">
         <div class="col">
-            <form action="?modul=mod_kategoriproduk&action=update" method="POST">
+            <form action="?modul=mod_kategoriproduk&action=update" id="kategoriproduk_edit" method="POST">
                 <div class="mb-3 row">
                  <label for="namakategori" class="col-sm-2 col-form-label">Nama Kategori</label>
                  <div class="col-lg-6">
@@ -104,12 +105,29 @@
                     <div class="col-md-10">
                         <a href="?modul=mod_kategoriproduk" type="cancel" class="btn btn-secondary"><i class="bi bi-box-arrow-left"></i> Kembali</a>
                         <button type="cancel" class="btn btn-danger"><i class="bi bi-x-square"></i> Reset</button>
-                        <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Simpan</button>
+                        <button type="button" id="btnsimpan_edit" data-bs-toggle="modal" class="btn btn-primary"><i class="bi bi-save"></i> Simpan</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
+    <div class="modal fade" tabindex="-1" id="ModalKonfirmasi2">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Konfirmasi</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<p>Apakah anda yakin simpan data ini?</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+						<button type="submit" id="btnyes_edit" class="btn btn-primary">Ya</button>
+					</div>
+				</div>
+			</div>
+		</div>
  </div>
 <?php
  endforeach;

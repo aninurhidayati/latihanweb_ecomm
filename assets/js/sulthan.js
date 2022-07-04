@@ -13,7 +13,7 @@ $("#txtkonfirm").click(function () {
 });
 // admin hak akses
 $("#txtsimpan").click(function () {
-  let ckmenu = $("input[type='checkbox']:checked").val();
+  let ckmenu = $("input[type='checkbox']:checked");
   if (ckmenu.length == "") {
     alert("Centang pilihan menu terlebih dahulu");
   } else {

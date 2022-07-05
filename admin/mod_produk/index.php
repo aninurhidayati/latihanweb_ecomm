@@ -47,12 +47,15 @@ if (!isset($_GET['act'])) {
             <div class="mb-3 row">
                 <label for="nmproduk_ins" class="col-sm-2 col-form-label">Nama Produk</label>
              <div class="col-sm-6">
-                <input type="text" class="form-control" id="nmproduk_ins" name="nmproduk_ins">
+                <input type="hidden" name="idblog" value="<?= $idproduk; ?>">
+                <input type="hidden" name="action" value="<?= $action; ?>">
+                <input type="text" class="form-control" id="nmproduk_ins" value=<?php $nmproduk; ?> name="nmproduk_ins">
              </div>
             </div>
             <div class="mb-3 row">
                 <label for="img_add" class="col-sm-2 col-form-label">Gambar</label>
                 <div class="col-sm-6">
+                    <input type="hidden" name="file_uploaded" value="<?= $gambar; ?>">
                     <input type="file" class="form-control" id="img_add" name="img_add">
                 </div>
             </div>
@@ -88,15 +91,15 @@ if (!isset($_GET['act'])) {
                 <div class="col-sm-6">
                 <select class="form-select form-select-lg mb-3" name="kondisi_ins" id="kondisi_ins" aria-label="size 3 select example">
                     <option value="" selected disabled>--Pilih Kondisi--</option>
-                    <option value="baru">baru</option>
-                    <option value="bekas">bekas</option>
+                    <option value="baru"><?php $kondisi; ?></option>
+                    <option value="bekas"><?php $kondisi; ?></option>
                 </select>
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="deskripsi" class="col-sm-2 col-form-label">Isi</label>
                 <div class="col-sm-6">
-                    <textarea name="deskripsi" id="deskripsi" cols="30" rows="10"></textarea>
+                    <textarea name="deskripsi" id="deskripsi" cols="30" rows="10"><?= $isi; ?></textarea>
                 </div>
             </div>
             <div class="mb-3 row">
@@ -118,21 +121,8 @@ if (!isset($_GET['act'])) {
     </div>
 </div>
 <?php 
- } //else {
-?>
-<div>
-    <div class="container-lg mt-1">
-        <!-- <h3 class="mt-1"><?php echo $judul1; ?></h3> -->
-        <div class="row mt-4">
-            <form action="?modul=mod_produk&act=save" id="formproduk" method="POST" enctype="multipart/form-data">
-
-            </form>
-        </div>
-    </div>
-</div>
-<?php
- //}
-?>
-<?php 
  } 
+?>
+<?php
+ }
 ?>

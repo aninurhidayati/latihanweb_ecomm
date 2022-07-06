@@ -2,7 +2,7 @@
 security_login();
 
 if(!isset($_GET['action'])){
-	$data_menu = mysqli_query($koneksidb,"select * from mst_menu ");
+	$data_menu = mysqli_query($koneksidb,"select * from mst_menu LIMIT 0,2 ");
 	//untuk contoh generate kode
 	$query_cekkode = mysqli_query($koneksidb,
 			"select kode_menu from mst_menu ORDER BY kode_menu DESC LIMIT 0,1");
@@ -35,11 +35,14 @@ if(!isset($_GET['action'])){
 	echo "kode: ".$kodeterbaru;
 	//untuk contoh combo
 	$data_produk = mysqli_query($koneksidb,"select * from mst_produk ");
+	
 }
 else if(isset($_GET['action']) && $_GET['action'] == "add"){
 	$nmmenu = "";
 	$proses = "insert";
 	$idmenu = 0 ;
+	$data_member = mysqli_query($koneksidb,"select * from daftarmember ");
+	//echo $_POST['member'];
 }
 else if(isset($_GET['action']) && $_GET['action'] == "edit"){
 	$qry = mysqli_query($koneksidb,"select * from mst_menu where idmenu=".$_GET['id']." LIMIT 0,1");
@@ -47,6 +50,11 @@ else if(isset($_GET['action']) && $_GET['action'] == "edit"){
 	$idmenu = $dt['idmenu'];
 	$nmmenu = $dt['nmmenu'];
 	$proses = "update";
+}
+else if(isset($_GET['action']) && $_GET['action'] == "findtransaksi"){
+	$qry = mysqli_query($koneksidb,"select * from tst_penjualan where idmember=".$_POST['member']." LIMIT 0,1");
+	$dt = mysqli_fetch_array($qry);
+	echo json_encode($dt);
 }
 else if(isset($_GET['action']) && $_GET['action'] == "save"){
 	$idmenu = $_POST['idmenu'];

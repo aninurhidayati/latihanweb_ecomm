@@ -96,3 +96,20 @@ if (document.getElementById("formcontoh")) {
     console.log(qty + ":" + harga);
   });
 }
+
+//ketika combo member dipilih
+$("#ex_member").change(function (e) {
+  e.preventDefault();
+  let idmember = $(this).val();
+  console.log(idmember);
+  $.ajax({
+    url: "http://localhost/latihanweb_ecomm/admin/mod_contoh/proses.php",
+    data: { member: idmember },
+    type: "POST",
+    cache: false,
+    success: function (responseData) {
+      let data = JSON.parse(responseData);
+      console.log(data.no_invoice);
+    },
+  });
+});

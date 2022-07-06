@@ -2,6 +2,7 @@
 	require_once("config/koneksidb.php");
 	require_once("config/config.php");
  ?>
+
 <body>
 	<!-- konten -->
 	<?php
@@ -13,74 +14,82 @@
 	<section id="konten">
 		<div class="row pt-2">
 			<div class="col-md-2"></div>
-			<div class="col-md-6"> 
-			<b><marquee width="100%" behavior="" scrollamount="10" direction="" style="background-color:white;color:orange;"> <h1>Produk-Produk Terbaik bikinan Kelas ASE Diskon 100% </h1>  </marquee></b>
+			<div class="col-md-6">
+				<b>
+					<marquee width="100%" behavior="" scrollamount="10" direction=""
+						style="background-color:white;color:orange;">
+						<h1>Produk-Produk Terbaik bikinan Kelas ASE Diskon 100% </h1>
+					</marquee>
+				</b>
 			</div>
 			<div class="col-md-3">
-			<form method="get" class="d-flex" role="search">
-                 <input class="form-control me-2" type="search" placeholder="Cari disini" aria-label="Search" name="cari">
-                 <button class="btn btn-outline-success" type="submit">Search</button>
-                  </form>
-			</div>		
+				<form method="get" class="d-flex" role="search">
+					<input class="form-control me-2" type="search" placeholder="Cari disini" aria-label="Search"
+						name="cari">
+					<button class="btn btn-outline-success" type="submit">Search</button>
+				</form>
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-3"></div>
-			<div class="col-md-6"> 
+			<div class="col-md-6">
 			</div>
-			<div class="col-md-3"></div>		
+			<div class="col-md-3"></div>
 		</div>
-	<div class="row" >
-        <div class="col-md-1"></div>
-		<div class="col-md-2 pt-2">
-			<div class="kategori-title">Kategori Produk</div>
-             <?php
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-2 pt-2">
+				<div class="kategori-title">Kategori Produk</div>
+				<?php
             $qry_listkat= mysqli_query($koneksidb,"select * from kategoriproduk order by idkategori DESC")or die("gagal akses tabel kategoriproduk".mysqli_error($connect_db));
 			$qry=mysqli_query($koneksidb,"SELECT * from kategoriproduk");
 
             while($row = mysqli_fetch_array($qry_listkat)){
             ?>
-            <div class="subkategori" id=""> 
-            <ul>
-                <li> 
-                	<a href="?page=kategoriproduk&id=<?=$row['idkategori'];?>"><?php echo $row['nmkategori'];?></a>
-                </li>
-            </ul>
-			</div>
-            <?php
+				<div class="subkategori" id="">
+					<ul>
+						<li>
+							<a
+								href="?page=kategoriproduk&id=<?=$row['idkategori'];?>"><?php echo $row['nmkategori'];?></a>
+						</li>
+					</ul>
+				</div>
+				<?php
             }
             ?>
-		</div>
-		<div class="col-md-8 pt-2">
-			<div class="row">
-				<?php
+			</div>
+			<div class="col-md-8 pt-2">
+				<div class="row">
+					<?php
 				
-                    $qlist_produk = mysqli_query($koneksidb, "SELECT a.idproduk,a.nmproduk, a.harga, a.gambar 
-					FROM mst_produk a INNER JOIN tst_penjualan b ON b.idproduk=a.idproduk GROUP BY a.nmproduk ORDER BY b.qty DESC LIMIT 6;");
+                    $qlist_produk = mysqli_query($koneksidb, "SELECT a.idproduk,a.nmproduk, a.harga, a.gambar ,SUM(b.qty) as totallaku
+					FROM mst_produk a INNER JOIN tst_penjualan b ON b.idproduk=a.idproduk GROUP BY a.nmproduk ORDER BY sum(b.qty) DESC LIMIT 6 ");
 					if(isset($_GET['cari'])){
 						$qlist_produk= mysqli_query($koneksidb, "SELECT a.nmproduk, a.harga, a.gambar 
 						FROM mst_produk a INNER JOIN tst_penjualan b ON b.idproduk=a.idproduk WHERE a.nmproduk like '%".$_GET['cari']."%'");
 					}
                     foreach($qlist_produk as $lp) :
                 ?>
-				<div class="col-md-4 pb-4">
-					<div class="card">
-						<img src="assets/img/<?= $lp['gambar'];?>" class="card-img-top" alt="..." />
-						<div class="card-body text-center bgcardbody">
-							<h5 class="card-title"><?= $lp['nmproduk'];?></h5>
-							<h6 class="harga"><?= rupiah($lp['harga']); ?></h6>
-							
+					<div class="col-md-4 pb-4">
+						<div class="card">
+							<img src="assets/img/<?= $lp['gambar'];?>" class="card-img-top" alt="..." />
+							<div class="card-body text-center bgcardbody">
+								<h5 class="card-title"><?= $lp['nmproduk'];?></h5>
+								<h6 class="harga"><?= rupiah($lp['harga']); ?></h6>
+
+							</div>
+							<ul class="list-group list-group-flush">
+								<li class="list-group-item btndetail">
+									<a href="?page=detailproduk&id=<?= $lp['idproduk'];?>" target="_blank"
+										class="btn text-white">Detail</a>
+								</li>
+							</ul>
 						</div>
-						<ul class="list-group list-group-flush">
-							<li class="list-group-item btndetail">
-								<a href="?page=detailproduk&id=<?= $lp['idproduk'];?>" target="_blank" class="btn text-white">Detail</a>
-							</li>
-						</ul>
 					</div>
+					<?php endforeach;?>
 				</div>
-				<?php endforeach;?>
 			</div>
 		</div>
-	</div>
 	</section>
 	<!-- modal -->
 	<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -109,8 +118,8 @@
 					<div class="row mb-3">
 						<div class="col-md-5 text-end">
 							<a href="?page=lupapassword" class="btn btn-primary">Lupa Password?</a>
+						</div>
 					</div>
-				</div>
 			</form>
 		</div>
 	</div>
@@ -125,4 +134,5 @@
 	<script src="assets/js/agung.js"></script>
 	<script src="assets/js/putra.js"></script>
 </body>
+
 </html>

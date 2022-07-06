@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2022-07-06 08:33:31
+Date: 2022-07-06 09:29:04
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -54,7 +54,7 @@ CREATE TABLE `hakakses_menu` (
   KEY `iduser_fk` (`iduser`),
   CONSTRAINT `idmenu_fk` FOREIGN KEY (`idmenu`) REFERENCES `mst_menu` (`idmenu`),
   CONSTRAINT `iduser_fk` FOREIGN KEY (`iduser`) REFERENCES `mst_userlogin` (`iduser`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of hakakses_menu
@@ -62,6 +62,17 @@ CREATE TABLE `hakakses_menu` (
 INSERT INTO `hakakses_menu` VALUES ('1', '1', '1');
 INSERT INTO `hakakses_menu` VALUES ('2', '2', '1');
 INSERT INTO `hakakses_menu` VALUES ('3', '3', '1');
+INSERT INTO `hakakses_menu` VALUES ('4', '1', '3');
+INSERT INTO `hakakses_menu` VALUES ('5', '2', '3');
+INSERT INTO `hakakses_menu` VALUES ('6', '3', '3');
+INSERT INTO `hakakses_menu` VALUES ('7', '4', '3');
+INSERT INTO `hakakses_menu` VALUES ('8', '5', '3');
+INSERT INTO `hakakses_menu` VALUES ('9', '6', '3');
+INSERT INTO `hakakses_menu` VALUES ('10', '7', '3');
+INSERT INTO `hakakses_menu` VALUES ('11', '8', '3');
+INSERT INTO `hakakses_menu` VALUES ('12', '3', '4');
+INSERT INTO `hakakses_menu` VALUES ('13', '4', '4');
+INSERT INTO `hakakses_menu` VALUES ('14', '5', '4');
 
 -- ----------------------------
 -- Table structure for kategoriproduk
@@ -203,6 +214,15 @@ CREATE TABLE `tst_request` (
 -- ----------------------------
 -- Records of tst_request
 -- ----------------------------
+
+-- ----------------------------
+-- View structure for hakakses_view
+-- ----------------------------
+DROP VIEW IF EXISTS `hakakses_view`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `hakakses_view` AS SELECT
+hm.id_hakakses, mu.iduser, mu.username, mm.idmenu, mm.nmmenu
+FROM mst_userlogin mu INNER JOIN hakakses_menu hm ON mu.iduser=hm.iduser
+INNER JOIN mst_menu mm ON mm.idmenu=hm.idmenu ;
 
 -- ----------------------------
 -- View structure for produkterlaris

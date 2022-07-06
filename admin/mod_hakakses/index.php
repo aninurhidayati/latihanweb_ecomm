@@ -46,6 +46,7 @@ if(!isset($_GET['act'])) {
 							<select name="iduser" id="" class="form-select">
 								<?php
                                 while ($r = mysqli_fetch_array($quser)) {
+
                                     if($r['iduser'] == $username){
                                         $selec = "selected";
                                     }
@@ -67,24 +68,24 @@ if(!isset($_GET['act'])) {
 						</tr>
 						<?php
                        while ($r = mysqli_fetch_array($qmenu)) {
-                        while($d = mysqli_fetch_array($qakses)){
-
-                        if($d['idmenu']== $r['idmenu']){
-                            $check = "checked";
-                        }
-                        else{
-                            $check = "";
-                        }
-                        }
+                        $qakses = mysqli_query($koneksidb, "SELECT * FROM hakakses_menu 
+                        WHERE iduser='".$_GET['iduser']."' && idmenu=".$r['idmenu']." ");
+                        
+                        $cek = mysqli_num_rows($qakses);
+                        if($cek>0){
+                                $check = "checked";
+                            }
+                            else{
+                                $check = "";
+                            }
+                        
                        ?>
 						<tr>
 							<td><input class="form-check-input" type="checkbox" name="idmenu[]" id="ckmenu"
 									value="<?= $r['idmenu'];?>" <?= $check; ?>></td>
-							<td value="<?= $r['idmenu'];?>"><?= $r['nmmenu'];?></td>
+							<td value="<?= $r['idmenu'];?>"><?= $r['idmenu'];?> <?= $r['nmmenu'];?>: <?= $cek;?></td>
 						</tr>
 						<?php 
-
-                        
                        };
                         ?>
 					</table>

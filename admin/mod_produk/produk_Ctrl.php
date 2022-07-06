@@ -3,7 +3,7 @@ if(isset($_GET['act']) && ($_GET['act']== "add")){
 	//jika ada send variabel act=add, tampil form input/tambah
 	$judul = "Form Input Data";
 	//ini untk isi combo
-	$listkategori = mysqli_query($connect_db,"select * from mst_kategoriproduk")or die("gagal akses table mst_kategoriproduk ".mysqli_error($connect_db));
+	$listkategori = mysqli_query($connect_db,"select * from kategoriproduk")or die("gagal akses table mst_kategoriproduk ".mysqli_error($connect_db));
 	$idproduk = 0;
 	$nmproduk= "";		
 	$idkategori = 0;
@@ -20,7 +20,7 @@ else if(isset($_GET['act']) && ($_GET['act']== "edit")){
 	$judul = "Form Edit Data";
 	$idkey = $_GET['id']; //dapat dari URL
 	$listkategori = mysqli_query($connect_db,
-			"select * from mst_kategoriblog where is_active = 1 order by id_kategori DESC")
+			"select * from kategoriblog where is_active = 1 order by id_kategori DESC")
 			or die("gagal akses table mst_menu ".mysqli_error($connect_db));
 	$qdata = mysqli_query($connect_db,"select m.*, k.nm_kategori from mst_blog m 
 				inner join mst_kategoriblog k on m.id_kategori=k.id_kategori where id_blog=$idkey")

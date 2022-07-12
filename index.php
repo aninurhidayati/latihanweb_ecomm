@@ -29,6 +29,9 @@
 				<li class="nav-item">
 					<a href="?page=halamanProduk" class="nav-link">PRODUCT</a>
 				</li>
+				<li class="nav-item">
+					<a href="?page=order" class="nav-link"><i class="bi bi-cart-plus"></i> ORDER</a>
+				</li>
 			</ul>
 
 			<div class="collapse navbar-collapse text-white" id="navbarSupportedContent">
